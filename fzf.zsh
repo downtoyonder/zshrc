@@ -1,13 +1,7 @@
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-  export PATH="$PATH:/usr/local/opt/fzf/bin"
-fi
-
-# Man path
-# --------
-if [[ ! "$MANPATH" == */usr/local/opt/fzf/man* && -d "/usr/local/opt/fzf/man" ]]; then
-  export MANPATH="$MANPATH:/usr/local/opt/fzf/man"
+  PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
 fi
 
 # Auto-completion
@@ -16,7 +10,4 @@ fi
 
 # Key bindings
 # ------------
-FILE="/usr/local/opt/fzf/shell/key-bindings.zsh"
-if [[ -a $FILE ]]; then
-    source $FILE
-fi
+source "/usr/local/opt/fzf/shell/key-bindings.zsh"

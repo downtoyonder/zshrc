@@ -8,6 +8,7 @@ zplug "zsh-users/zsh-history-substring-search"
 
 # Supports oh-my-zsh plugins and the like
 zplug "plugins/git",   from:oh-my-zsh
+zplug "plugins/sudo",   from:oh-my-zsh
 
 # Set the priority when loading
 # e.g., zsh-syntax-highlighting must be loaded

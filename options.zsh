@@ -76,3 +76,16 @@ setopt TRANSIENT_RPROMPT
 #- $ ls Mafile (将 cursor 移动到 Mafile 中的 f 上，然后按 tab)
 #- $ ls Makefile (Mafile 会被补全为 Makefile，因为补全也匹配了符合 ^Ma.*file$ pattern 的文件，如果目录下还有一个名为 Makkefile 的文件，也会被匹配到)
 setopt COMPLETE_IN_WORD
+
+# Make cd push the old directory onto the directory stack.
+# 对 cd 前的目录调用 pushd，pushd 是一个 linux 命令，将当前目录 push 到一个栈里，类似 git stash push。成对的，有 popd 
+setopt AUTO_PUSHD
+
+# Don’t push multiple copies of the same directory onto the directory stack.
+# pushd 时忽略重复目录
+setopt PUSHD_IGNORE_DUPS
+
+# DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
+# > 在文件不存在时会创建文件，在文件存在时会清空文件内容并写入。设置 no_clobber 让 > 只能创建文件，不能覆写文件
+# 同理，让 >> 只能用于给文件追加内容，不能用于创建文件
+setopt no_clobber

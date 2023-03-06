@@ -1,3 +1,6 @@
+## first include of the environment
+source $HOME/.config/zshrc/environment.zsh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,17 +8,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# first include of the environment
-source $HOME/.config/zsh/environment.zsh
-
 # -g 设置为全局变量，即使在函数内也生效
 # -a 设置变量为数组
 typeset -ga sources
 sources+="$ZSH_CONFIG/applications.zsh"
 sources+="$ZSH_CONFIG/options.zsh"
-sources+="$ZSH_CONFIG/prompt.zsh"
-sources+="$ZSH_CONFIG/fzf.zsh"
+sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/alias.zsh"
+sources+="$ZSH_CONFIG/fzf.zsh"
 sources+="$ZSH_CONFIG/zplug.zsh"
 
 # 根据不同系统导入不同的配置文件

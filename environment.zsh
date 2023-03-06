@@ -4,8 +4,8 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 # zsh 配置文件目录
-export ZSH_CONFIG="$XDG_CONFIG_HOME/zsh"
-export ZSH_CACHE="$XDG_CACHE_HOME/zsh"
+export ZSH_CONFIG="$XDG_CONFIG_HOME/zshrc"
+export ZSH_CACHE="$XDG_CACHE_HOME/zshrc"
 mkdir -p $ZSH_CACHE
 
 # ************************************************************** #
@@ -16,5 +16,5 @@ mkdir -p $ZSH_CACHE
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
 # HTTP proxy
-export http_proxy=126.0.0.1:7890
-export https_proxy=126.0.0.1:7890
+export http_proxy=127.0.0.1:7890
+export https_proxy=127.0.0.1:7890

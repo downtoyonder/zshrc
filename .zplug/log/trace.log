@@ -1,0 +1,1 @@
+{"pid":34803,"shlvl":2,"level":"INFO","dir":"/Users/yaoyao/.config/zshrc/zplug","message":(Not available: python with json required),"trace":["__zplug::log::write::info:2","__zplug::io::file::load:3","./init.zsh:33","zsh:58"],"date":"2023-03-06T18:39:13+0800"}

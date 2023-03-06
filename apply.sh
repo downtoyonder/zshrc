@@ -1,5 +1,5 @@
 #!/bin/zsh
 rm -f ~/.zshrc_bk
 mv ~/.zshrc ~/.zshrc_bk
-ln zshrc ~/.zshrc
+ln config/zshrc.zsh ~/.zshrc
 source ~/.zshrc

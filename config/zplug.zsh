@@ -1,8 +1,8 @@
 # ************************************************************** #
 # * zplug & plugin management
 # ************************************************************** #
- export ZPLUG_HOME=$HOME/.zplug
-source $HOME/.zplug/init.zsh
+export ZPLUG_HOME=$ZSH_HOME/zplug
+source $ZPLUG_HOME/init.zsh
 
 # Make sure to use double quotes
 zplug "zsh-users/zsh-history-substring-search"

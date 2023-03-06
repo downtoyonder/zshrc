@@ -1,6 +1,7 @@
 # ************************************************************** #
 # * zplug & plugin management
 # ************************************************************** #
+ export ZPLUG_HOME=$HOME/.zplug
 source $HOME/.zplug/init.zsh
 
 # Make sure to use double quotes

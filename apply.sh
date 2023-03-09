@@ -9,9 +9,7 @@ if [ ! -d "zplug/.git" ]; then
     git submodule update --init
 fi
 
-if [ -f "~/.zshrc" ]; then
-    rm -f ~/.zshrc 
-fi
+rm -f ~/.zshrc 
 
 ln config/zshrc.zsh ~/.zshrc
 

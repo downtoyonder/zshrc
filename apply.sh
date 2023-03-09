@@ -5,13 +5,12 @@ if [ "$1" = "uninstall" ]; then
 	exit 0;
 fi
 
-if [ -d "zplug/.git" ]; then
+if [ ! -d "zplug/.git" ]; then
     git submodule update --init
 fi
 
 if [ -f "~/.zshrc" ]; then
-    rm -f ~/.zshrc_bk
-    mv ~/.zshrc ~/.zshrc_bk
+    rm -f ~/.zshrc 
 fi
 
 ln config/zshrc.zsh ~/.zshrc

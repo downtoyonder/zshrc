@@ -1,4 +1,10 @@
 # Setup fzf
+
+if [ -d "~/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+fi
+
 # ---------
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"

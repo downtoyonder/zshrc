@@ -17,5 +17,5 @@ mkdir -p $ZSH_CACHE
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
 # HTTP proxy
-export http_proxy=127.0.0.1:7890
-export https_proxy=127.0.0.1:7890
+#export http_proxy=127.0.0.1:7890
+#export https_proxy=127.0.0.1:7890

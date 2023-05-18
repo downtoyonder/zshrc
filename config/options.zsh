@@ -6,9 +6,8 @@
 
 # arrow up/down searches in history if line is already started
 # 上下键根据已输入的命令匹配历史
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
 # ***************************************************************************
 # * History Setting
 # ***************************************************************************

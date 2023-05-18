@@ -15,9 +15,3 @@ mkdir -p $ZSH_CACHE
 
 # Executable search path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
-
-# HTTP proxy
-#export http_proxy=http://127.0.0.1:7890
-#export https_proxy=http://127.0.0.1:7890
-#export HTTP_PROXY=http://127.0.0.1:7890
-#export HTTPS_PROXY=http://127.0.0.1:7890

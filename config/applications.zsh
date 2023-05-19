@@ -49,6 +49,10 @@ PATH="/home/yaoyao/.local/share/JetBrains/Toolbox/scripts:$PATH"
 # * Pnpm 
 PATH="/home/yaoyao/.local/share/pnpm:$PATH"
 
+# * yarn
+# yarn global path
+PATH="/home/don/.yarn/bin:$PATH"
+
 # * Prometheus 
 PATH="/home/yaoyao/Applications/prometheus/bin:$PATH"
 PATH="/home/yaoyao/Applications/node_exporter/bin:$PATH"

@@ -25,7 +25,6 @@ sources+="$ZSH_CONFIG/applications.zsh"
 sources+="$ZSH_CONFIG/options.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/alias.zsh"
-sources+="$ZSH_CONFIG/fzf.zsh"
 sources+="$ZSH_CONFIG/zplug.zsh"
 
 # 根据不同系统导入不同的配置文件
@@ -44,6 +43,10 @@ end
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
 # Get the end time
 end_time=$(date +%s.%N)
 # Calculate the elapsed time
@@ -54,4 +57,5 @@ formatted_time=$(printf "%.2f" $elapsed_time)
 magenta='\033[0;35m'
 default='\033[0m'
 # Print the startup time
-echo -e "Zsh startup time: ${magenta}$formatted_time${default} seconds"
+export zsh_startup_time=${formatted_time}s
+echo "MAKE TODAY AN AMAZING DAY!!!"

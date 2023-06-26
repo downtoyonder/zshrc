@@ -57,6 +57,10 @@ PATH="/home/don/.yarn/bin:$PATH"
 PATH="/home/yaoyao/Applications/prometheus/bin:$PATH"
 PATH="/home/yaoyao/Applications/node_exporter/bin:$PATH"
 
+# * gem
+export GEM_HOME="$HOME/gems"
+PATH=$GEM_HOME/bin:$PATH
+
 # * NVM
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

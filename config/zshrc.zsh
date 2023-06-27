@@ -5,21 +5,14 @@ start_time=$(date +%s.%N)
 source $HOME/.config/zshrc/config/environment.zsh
 
 if [ -f $HOME/.config/zshrc/proxy/proxy.zsh ]; then
-    source $HOME/.config/zshrc/proxy/proxy.zsh
-fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+	source $HOME/.config/zshrc/proxy/proxy.zsh
 fi
 
 # -g: This attribute makes the variable global.
 #     Allowing it to be accessed and modified from within functions and subshells.
 #     Without the -g attribute, the variable would be local to the current scope.
-#-a: This attribute specifies that the variable is an array.
-#    Arrays in Zsh can hold multiple values.
+# -a: This attribute specifies that the variable is an array.
+#     Arrays in Zsh can hold multiple values.
 typeset -ga sources
 sources+="$ZSH_CONFIG/applications.zsh"
 sources+="$ZSH_CONFIG/options.zsh"
@@ -30,18 +23,15 @@ sources+="$ZSH_CONFIG/zplug.zsh"
 # 根据不同系统导入不同的配置文件
 # MacOS: darwin.zsh
 # Linux: linux.zsh
-systemFile=`uname -s | tr "[:upper:]" "[:lower:]"`
+systemFile=$(uname -s | tr "[:upper:]" "[:lower:]")
 sources+="$ZSH_CONFIG/$systemFile.zsh"
 
 # 遍历数组应用所有 zsh 配置
-foreach file (`echo $sources`)
-    if [[ -a $file ]]; then
-        source $file
-    fi
-end
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+for file in $sources[@]; do
+	if [[ -f $file ]]; then
+		source $file
+	fi
+done
 
 # tabtab source for packages
 # uninstall by removing these lines

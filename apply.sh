@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/zsh
+# if zsh not installed, the script will be executed by the default shell
 
 # Check if zsh is installed
 if ! command -v zsh >/dev/null; then

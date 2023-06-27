@@ -6,18 +6,22 @@
 
 # arrow up/down searches in history if line is already started
 # 上下键根据已输入的命令匹配历史
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "$terminfo[kcuu1]" history-beginning-search-backward-end
+bindkey "$terminfo[kcud1]" history-beginning-search-forward-end
+
 # ***************************************************************************
 # * History Setting
 # ***************************************************************************
 
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
-if (( ! EUID )); then
-    HISTFILE=$ZSH_CACHE/history_root
+if ((!EUID)); then
+	HISTFILE=$ZSH_CACHE/history_root
 else
-    HISTFILE=$ZSH_CACHE/history
+	HISTFILE=$ZSH_CACHE/history
 fi
 SAVEHIST=10000
 HISTSIZE=12000
@@ -28,15 +32,15 @@ setopt share_history append_history extended_history hist_no_store hist_ignore_a
 # 输入文件夹名自动 cd
 setopt AUTO_CD
 
-# Treat the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc. 
+# Treat the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.
 # (An initial unquoted ‘~’ always produces named directory expansion.)
 # 将 ‘#’, ‘~’ and ‘^’ 看作是正则表达式的 pattern，而不是一般符号，因为 ‘#’, ‘~’ and ‘^’ 作为文件名也是合法的。
 # 设置效果如下：
 # $ touch 'foo' 'bar' '^foo' '^bar'
-#- $ ls ^foo* 
+#- $ ls ^foo*
 #- > ^foo
 #- $ setopt extendedglob
-#- $ ls ^foo*           
+#- $ ls ^foo*
 #- > bar  ^bar  ^foo
 # 当没有设置 extendedglob 时，ls ^foo* 的意思是列出当前目录下以 ^foo 开头的所有文件
 # 当设置了 extendedglob 时，ls ^foo* 的意思是列出当前目录下除了以 foo 开头的其他所有文件
@@ -77,7 +81,7 @@ setopt TRANSIENT_RPROMPT
 setopt COMPLETE_IN_WORD
 
 # Make cd push the old directory onto the directory stack.
-# 对 cd 前的目录调用 pushd，pushd 是一个 linux 命令，将当前目录 push 到一个栈里，类似 git stash push。成对的，有 popd 
+# 对 cd 前的目录调用 pushd，pushd 是一个 linux 命令，将当前目录 push 到一个栈里，类似 git stash push。成对的，有 popd
 setopt AUTO_PUSHD
 
 # Don’t push multiple copies of the same directory onto the directory stack.

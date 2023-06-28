@@ -5,14 +5,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # Get the start time
 start_time=$(date +%s.%N)
 
 ## First, including the environment variables
 source $HOME/.config/zshrc/config/environment.zsh
 
-if [ -f $HOME/.config/zshrc/proxy/proxy.zsh ]; then
-	source $HOME/.config/zshrc/proxy/proxy.zsh
+if [ -f $HOME/.config/zshrc/config/proxy.zsh ]; then
+	source $HOME/.config/zshrc/config/proxy.zsh
 fi
 
 # -g: This attribute makes the variable global.

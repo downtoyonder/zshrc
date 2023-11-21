@@ -14,4 +14,11 @@ mkdir -p $ZSH_CACHE
 # ************************************************************** #
 
 # Executable search path
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+# The default system environment contains(from first to last order): /home/don/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# 1. /home/don/.local/bin
+# 2. /usr/local/sbin
+# 3. /usr/local/bin
+# 4. /usr/sbin
+# 5. /usr/bin
+# 6. /sbin
+# 7. /bin

@@ -2,14 +2,7 @@
 # * 应用相关配置
 # ************************************************************** #
 
-# * Homebrew
-# /usr/local/Cellar
-
-# * Golang
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/go
-export GOBIN=$GOPATH/bin
-PATH=$GOBIN:$GOROOT/bin:$PATH
+export EDITOR="vim"
 
 # * Conda
 # >>> conda initialize >>>
@@ -31,7 +24,14 @@ if [ -f "$HOME/mambaforge-pypy3/etc/profile.d/mamba.sh" ]; then
 fi
 # <<< conda initialize <<<
 
+# * Golang
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go
+export GOBIN=$GOPATH/bin
+PATH=$GOBIN:$GOROOT/bin:$PATH
+
 # * Rust
+# . "$HOME/.cargo/env"
 PATH="$HOME/.cargo/bin:$PATH"
 
 # * Haskell
@@ -66,4 +66,20 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-export PATH
+# * bun
+export BUN_INSTALL="$HOME/.bun"
+PATH="$BUN_INSTALL/bin:$PATH"
+# bun completions
+[ -s "/home/don/.bun/_bun" ] && source "/home/don/.bun/_bun"
+
+# * kubectl
+# auto completion
+source <(kubectl completion zsh)
+
+# * minikube
+# auto completion
+source <(minikube completion zsh)
+
+# * golangci-lint
+# auto completion
+source <(golangci-lint completion zsh)

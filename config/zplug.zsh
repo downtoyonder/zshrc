@@ -1,11 +1,15 @@
 # ************************************************************** #
 # * zplug & plugin management
 # ************************************************************** #
+
+# Using zplug as plugin manager
+# Refer to https://github.com/zplug/zplug
+
 export ZPLUG_HOME=$ZSH_HOME/zplug
 source $ZPLUG_HOME/init.zsh
 
 # Make sure to use double quotes
-zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-history-substring-search", as:plugin
 
 # Supports oh-my-zsh plugins and the like
 zplug "plugins/git", from:oh-my-zsh

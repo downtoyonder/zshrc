@@ -1,6 +1,6 @@
 # 命令建议插件
 # zplug "zsh-users/zsh-autosuggestions"
-# 绑定 alt + a 
+# 绑定 alt + a
 bindkey "^[a" autosuggest-accept
 
 # arrow up/down searches in history if line is already started
@@ -11,3 +11,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search
+
+# slove locale problem
+LC_CTYPE=en_US.UTF-8
+LC_ALL=en_US.UTF-8

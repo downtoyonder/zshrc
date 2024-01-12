@@ -75,10 +75,14 @@ PATH="$BUN_INSTALL/bin:$PATH"
 # * kubectl
 # auto completion
 source <(kubectl completion zsh)
+alias k="kubectl"
 
 # * minikube
 # auto completion
 source <(minikube completion zsh)
+alias mk="minikube"
+alias mkk="minikube kubectl"
+alias mkh="minikube helm"
 
 # * golangci-lint
 # auto completion

@@ -63,6 +63,16 @@ for file in $sources[@]; do
 	fi
 done
 
+# fzf: https://github.com/junegunn/fzf?tab=readme-ov-file#installation
+# Shortcut:
+# CTRL+R: Paste the selected files and directories onto the command-line
+# CTRL+T: Paste the selected command from history onto the command-line
+# ALT+C: cd into the selected directory
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# thefunk: https://github.com/nvbn/thefuck
+eval $(thefuck --alias) 
+
 # Get the end time
 end_time=$(date +%s.%N)
 # Calculate the elapsed time

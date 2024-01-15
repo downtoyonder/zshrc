@@ -11,8 +11,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # slove locale problem
-LC_CTYPE=en_US.UTF-8
-LC_ALL=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # The start time
 start_time=$(date +%s.%N)

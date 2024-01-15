@@ -10,6 +10,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# slove locale problem
+LC_CTYPE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+
 # The start time
 start_time=$(date +%s.%N)
 
@@ -69,9 +73,6 @@ done
 # CTRL+T: Paste the selected command from history onto the command-line
 # ALT+C: cd into the selected directory
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# thefunk: https://github.com/nvbn/thefuck
-eval $(thefuck --alias) 
 
 # Get the end time
 end_time=$(date +%s.%N)

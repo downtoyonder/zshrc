@@ -73,17 +73,28 @@ PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "/home/don/.bun/_bun" ] && source "/home/don/.bun/_bun"
 
 # * kubectl
-# auto completion
-source <(kubectl completion zsh)
-alias k="kubectl"
+if command -v kubectl &>/dev/null; then
+	# auto completion
+	source <(kubectl completion zsh)
+	alias k="kubectl"
+fi
 
 # * minikube
-# auto completion
-source <(minikube completion zsh)
-alias mk="minikube"
-alias mkk="minikube kubectl"
-alias mkh="minikube helm"
+if command -v minikube &>/dev/null; then
+	# auto completion
+	source <(minikube completion zsh)
+	alias mk="minikube"
+	alias mkk="minikube kubectl"
+	alias mkh="minikube helm"
+fi
 
 # * golangci-lint
-# auto completion
-source <(golangci-lint completion zsh)
+if command -v golangci-lint &>/dev/null; then
+	# auto completion
+	source <(golangci-lint completion zsh)
+fi
+
+if command -v thefuck &>/dev/null; then
+	# thefunk: https://github.com/nvbn/thefuck
+	eval $(thefuck --alias)
+fi

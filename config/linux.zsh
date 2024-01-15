@@ -11,7 +11,3 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search
-
-# slove locale problem
-LC_CTYPE=en_US.UTF-8
-LC_ALL=en_US.UTF-8

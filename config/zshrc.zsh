@@ -72,7 +72,7 @@ done
 # CTRL+R: Paste the selected files and directories onto the command-line
 # CTRL+T: Paste the selected command from history onto the command-line
 # ALT+C: cd into the selected directory
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # Get the end time
 end_time=$(date +%s.%N)

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [[ -e "$ZSH_HOME/apply.flag" ]]; then
+if [[ -e "apply.flag" ]]; then
 	echo "already apply the zshrc"
 	exit 0
 fi
 
-touch $ZSH_HOME/apply.flag
+touch apply.flag
 
 apt_updated=0
 function apt_install() {

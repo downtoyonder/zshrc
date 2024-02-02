@@ -82,8 +82,3 @@ ln config/zshrc.zsh ~/.zshrc
 
 # enter zsh
 zsh
-
-if [[ ! -e "$ZSH_HOME/zplug_update_once.flag" ]]; then
-	zplug update
-	touch $ZSH_HOME/zplug_update_once.flag
-fi

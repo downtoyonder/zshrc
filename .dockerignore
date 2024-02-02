@@ -1,3 +1,4 @@
 config/proxy.zsh
 config/work.zsh
 .git/
+zplug_update_once.flag

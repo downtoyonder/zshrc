@@ -1,7 +1,18 @@
 #!/bin/bash
 
+if [[ -e "$ZSH_HOME/apply.flag" ]]; then
+	echo "already apply the zshrc"
+	exit 0
+fi
+
+touch $ZSH_HOME/apply.flag
+
 apt_updated=0
 function apt_install() {
+	if [[ -z "$@" ]]; then
+		return
+	fi
+
 	if [[ "$apt_updated" -eq 0 ]]; then
 		apt_updated=1
 		apt update
@@ -57,7 +68,7 @@ if ! [[ $(command -v curl) ]]; then
 	to_install+=("curl")
 fi
 
-if ! [[ $(command -v locales) ]]; then
+if ! [[ $(command -v locale-gen) ]]; then
 	echo "locales is not installed. locales will be installed"
 	to_install+=("locales")
 fi

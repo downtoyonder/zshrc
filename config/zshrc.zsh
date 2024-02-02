@@ -21,13 +21,22 @@ start_time=$(date +%s.%N)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Including the environment variables
+# $ZSH_CONFIG variable is avaliable only after source the environment.zsh file
+# source "$HOME/.config/zshrc/config/environment.zsh"
+if [[ ! -z "$ZSH_CONFIG" ]]; then
+	source "$ZSH_CONFIG/environment.zsh"
+else
+	source "$HOME/.config/zshrc/config/environment.zsh"
+fi
+
 typeset -ga opts
 # Empty the config array to reset PATH
 opts=()
 # Set Proxy
-opts+="$HOME/.config/zshrc/config/proxy.zsh"
+opts+="$ZSH_CONFIG/proxy.zsh"
 # Environment for work
-opts+="$HOME/.config/zshrc/config/work.zsh"
+opts+="$ZSH_CONFIG/work.zsh"
 
 # 应用可选 zsh 配置
 for file in $opts[@]; do
@@ -35,10 +44,6 @@ for file in $opts[@]; do
 		source $file
 	fi
 done
-
-# Including the environment variables
-# $ZSH_CONFIG variable is avaliable only after source the environment.zsh file
-source $HOME/.config/zshrc/config/environment.zsh
 
 # -g: This attribute makes the variable global.
 #     Allowing it to be accessed and modified from within functions and subshells.
@@ -77,7 +82,7 @@ done
 # Get the end time
 end_time=$(date +%s.%N)
 # Calculate the elapsed time
-elapsed_time=$(echo "$end_time - $start_time" | bc)
+elapsed_time=$(echo "$end_time - $start_time")
 # Format the elapsed time
 formatted_time=$(printf "%.2f" $elapsed_time)
 # Set color variables
@@ -85,4 +90,4 @@ formatted_time=$(printf "%.2f" $elapsed_time)
 # default='\033[0m'
 # Print the startup time
 export zsh_startup_time=${formatted_time}s
-echo "MAKE TODAY AN AMAZING DAY!!!"
+echo "MAKE TODAY AN AMAZING DAY!!! --" $zsh_startup_time

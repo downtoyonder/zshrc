@@ -42,5 +42,7 @@ if ! zplug check --verbose; then
 	fi
 fi
 
+zplug update
+
 # Then, source plugins and add commands to $PATH
 zplug load

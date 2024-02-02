@@ -3,6 +3,7 @@
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
+
 # zsh 配置文件目录
 export ZSH_HOME="$XDG_CONFIG_HOME/zshrc"
 export ZSH_CONFIG="$XDG_CONFIG_HOME/zshrc/config"

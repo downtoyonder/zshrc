@@ -35,7 +35,7 @@ PATH=$GOBIN:$GOROOT/bin:$PATH
 PATH="$HOME/.cargo/bin:$PATH"
 
 # * Haskell
-PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$HOME/.local/bin:$PATH"
+PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
 # * Java jdk
 PATH="/usr/local/jdk/jdk0.8.0_321/bin:$PATH"
@@ -97,4 +97,12 @@ fi
 if command -v thefuck &>/dev/null; then
 	# thefunk: https://github.com/nvbn/thefuck
 	eval $(thefuck --alias)
+fi
+
+if command -v gh &>/dev/null; then
+    # github cli and github cli copilot
+    alias '#'="gh copilot suggest -t shell"
+    alias '#g'="gh copilot suggest -t git"
+    alias '#gh'="gh copilot suggest -t gh"
+    alias '#!'="gh copilot explain"
 fi

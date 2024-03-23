@@ -21,3 +21,11 @@ function unset_proxy() {
 	unset HTTPS_PROXY
 	unset NO_PROXY
 }
+
+function show_proxy() {
+	echo "http_proxy:   $http_proxy"
+	echo "https_proxy:  $https_proxy"
+	echo "HTTP_PROXY:   $HTTP_PROXY"
+	echo "HTTPS_PROXY:  $HTTPS_PROXY"
+	echo "NO_PROXY:     $NO_PROXY"
+}

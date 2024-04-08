@@ -15,17 +15,12 @@ function set_proxy() {
 }
 
 function unset_proxy() {
-	unset http_proxy
-	unset https_proxy
-	unset HTTP_PROXY
-	unset HTTPS_PROXY
-	unset NO_PROXY
+    env | grep -i proxy | while IFS= read -r line; do
+        var_name=$(echo "$line" | cut -d'=' -f1)
+        unset $var_name
+    done
 }
 
 function show_proxy() {
-	echo "http_proxy:   $http_proxy"
-	echo "https_proxy:  $https_proxy"
-	echo "HTTP_PROXY:   $HTTP_PROXY"
-	echo "HTTPS_PROXY:  $HTTPS_PROXY"
-	echo "NO_PROXY:     $NO_PROXY"
+    env | grep -i proxy
 }

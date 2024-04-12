@@ -13,6 +13,24 @@
 autoload -U compinit
 compinit
 
+# Move cursor to the end of a completed word
+setopt always_to_end
+
+# Automatically list choices on ambiguous completion
+setopt auto_list
+
+# Show completion menu on a successive tab press
+setopt auto_menu
+
+# If completed parameter is a directory, add a trailing slash
+setopt auto_param_slash
+
+# Complete from both ends of a word
+setopt complete_in_word
+
+# Don't autoselect the first completion entry
+unsetopt menu_complete
+
 # ***************************************************************************
 # * History Setting
 # ***************************************************************************
@@ -27,9 +45,23 @@ else
 	HISTFILE=$ZSH_CACHE/history
 fi
 
+# This option controls whether the command history is saved when you exit the shell. By default, it is turned on. You can disable it using setopt no_history.
 SAVEHIST=10000
+# This option defines the number of commands that are stored in the history. The default value is 2000.
 HISTSIZE=12000
-setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space hist_ignore_dups
+# Shares the command history across multiple zsh sessions, allowing you to access previously executed commands from any terminal.
+setopt share_history
+# Append to history file
+setopt append_history
+setopt extended_history
+setopt hist_ignore_all_dups
+#  Ignores commands that start with a space from being added to the history.
+setopt hist_ignore_space
+setopt hist_ignore_dups
+
+# ***************************************************************************
+# * Other Setting
+# ***************************************************************************
 
 # 启动 zsh 时打印 zsh 加载的配置文件
 # setopt SOURCE_TRACE
@@ -98,4 +130,4 @@ setopt PUSHD_IGNORE_DUPS
 # DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
 # > 在文件不存在时会创建文件，在文件存在时会清空文件内容并写入。设置 no_clobber 让 > 只能创建文件，不能覆写文件
 # 同理，让 >> 只能用于给文件追加内容，不能用于创建文件
-setopt no_clobber
+# setopt no_clobber

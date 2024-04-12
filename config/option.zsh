@@ -1,5 +1,8 @@
 # shell options as history size, keyindings, etc
 
+# ZSH options are case insensitive, and all underscore are ignored.
+# For example, `allexport`is equivalent to `A__lleXP_ort`
+
 # ***************************************************************************
 # * Key Bind
 # ***************************************************************************
@@ -7,7 +10,8 @@
 # ***************************************************************************
 # * Auto Completion
 # ***************************************************************************
-autoload -U compinit; compinit
+autoload -U compinit
+compinit
 
 # ***************************************************************************
 # * History Setting
@@ -16,13 +20,19 @@ autoload -U compinit; compinit
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
 if ((!EUID)); then
+	# Set History for root user
 	HISTFILE=$ZSH_CACHE/history_root
 else
+	# Set History for standard user
 	HISTFILE=$ZSH_CACHE/history
 fi
+
 SAVEHIST=10000
 HISTSIZE=12000
 setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space hist_ignore_dups
+
+# 启动 zsh 时打印 zsh 加载的配置文件
+# setopt SOURCE_TRACE
 
 # If a command is issued that can’t be executed as a normal command,
 # and the command is the name of a directory, perform the cd command to that directory.

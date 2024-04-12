@@ -10,7 +10,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# slove locale problem
+# Slove locale problem
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -23,7 +23,6 @@ start_time=$(date +%s.%N)
 
 # Including the environment variables
 # $ZSH_CONFIG variable is avaliable only after source the environment.zsh file
-# source "$HOME/.config/zshrc/config/environment.zsh"
 if [[ ! -z "$ZSH_CONFIG" ]]; then
 	source "$ZSH_CONFIG/environment.zsh"
 else

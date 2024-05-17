@@ -3,7 +3,7 @@
 # Set exit on error
 set -e
 
-blue_print=["zsh", "git", "make", "curl"]
+blue_print=("zsh" "git" "make" "curl")
 support_platform=("linux", "darwin")
 apply_flag="flags/apply.flag"
 

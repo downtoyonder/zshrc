@@ -1,3 +1,3 @@
 config/proxy.zsh
 config/work.zsh
-*.flag
+flags/

@@ -42,9 +42,9 @@ if ! zplug check --verbose; then
 	fi
 fi
 
-if [[ ! -e "$ZSH_HOME/zplug_update_once_on_apply.flag" ]]; then
+if [[ ! -e "$ZSH_HOME/flags/zplug_update_once_on_apply.flag" ]]; then
 	zplug update
-	touch $ZSH_HOME/zplug_update_once_on_apply.flag
+	touch $ZSH_HOME/flags/zplug_update_once_on_apply.flag
 fi
 
 # Then, source plugins and add commands to $PATH

@@ -33,13 +33,9 @@ zplug 'romkatv/powerlevel10k', as:theme, depth:1
 # https://github.com/agkozak/zsh-z
 zplug "agkozak/zsh-z"
 
-# Install plugins if there are plugins that have not been installed
+# Install plugins directly
 if ! zplug check --verbose; then
-	printf "Install? [y/N]: "
-	if read -q; then
-		echo
-		zplug install
-	fi
+	zplug install
 fi
 
 if [[ ! -e "$ZSH_HOME/flags/zplug_update_once_on_apply.flag" ]]; then

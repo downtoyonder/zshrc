@@ -20,7 +20,7 @@ for distro in "${debian_like[@]}"; do
 done
 
 # 拿到当前发行版
-curr_distro=$(head -1 /etc/os-release | cut -d '"' -f2)
+curr_distro=$(grep '^NAME=' /etc/os-release | awk -F= '{print $2}' | tr -d '"')
 
 # is current release supported
 is_supported=0

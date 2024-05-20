@@ -3,6 +3,13 @@
 # ZSH options are case insensitive, and all underscore are ignored.
 # For example, `allexport`is equivalent to `A__lleXP_ort`
 
+# Sections:
+# - Key Bind
+# - Auto Completion
+# - History Setting
+# - Changing Directories
+# - Debug
+
 # ***************************************************************************
 # * Key Bind
 # ***************************************************************************
@@ -13,20 +20,43 @@
 autoload -U compinit
 compinit
 
+# >ls D
+# Desktop/  Documents/  Downloads/ # 阻塞在这里等待进一步输入
+#
+# 如果 unsetopt 了:
+# >ls D
+# >Desktop/  Documents/  Downloads/ # 先返回所有匹配项，然后等待进一步输入
+# >ls D
+setopt ALWAYS_LAST_PROMPT
+
 # Move cursor to the end of a completed word
 setopt always_to_end
 
+# >ls D
+# Desktop/  Documents/  Downloads/ # 将列出所有匹配项，然后等待进一步输入
+#
+# 如果 unsetopt 了:
+# >ls D # 继续按 tab 会在这一行不停轮换匹配项，不会在新的一行列出所有匹配项
 # Automatically list choices on ambiguous completion
 setopt auto_list
 
+# 多次按 tab 是自动轮换匹配项
+# 如果 unsetopt 了:
+# >ls D # 继续按 tab 没有反应
 # Show completion menu on a successive tab press
 setopt auto_menu
 
-# If completed parameter is a directory, add a trailing slash
+# If completed parameter is a directory, add a trailing slash instead of a space
 setopt auto_param_slash
+
+# Typing `cd /usr/local/<SPACE>` will change to `cd /usr/local `.
+setopt AUTO_REMOVE_SLASH
 
 # Complete from both ends of a word
 setopt complete_in_word
+
+# setopt GLOB_COMPLETE
+# Typing `ls *.c<TAB>` will cycle through matching `.c` files.
 
 # Don't autoselect the first completion entry
 unsetopt menu_complete
@@ -45,26 +75,56 @@ else
 	HISTFILE=$ZSH_CACHE/history
 fi
 
-# This option controls whether the command history is saved when you exit the shell. By default, it is turned on. You can disable it using setopt no_history.
+# This option controls whether the command history is saved when you exit the shell.
+# By default, it is turned on. You can disable it using setopt no_history.
 SAVEHIST=10000
 # This option defines the number of commands that are stored in the history. The default value is 2000.
 HISTSIZE=12000
-# Shares the command history across multiple zsh sessions, allowing you to access previously executed commands from any terminal.
-setopt share_history
-# Append to history file
+
+# If this is set, zsh sessions will append their history list to the history file, rather than replace it.
+# Thus, multiple parallel zsh sessions will all have the new entries from their history lists added to the history file,
+# in the order that they exit.
 setopt append_history
-setopt extended_history
+
+# Save each command’s beginning timestamp (in seconds since the epoch) and the duration (in seconds) to the history file
+# setopt extended_history
+
+# If the internal history needs to be trimmed to add the current command line,
+# setting this option will cause the oldest history event that has a duplicate to be lost before losing a unique event from the list.
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# When searching for history entries in the line editor, do not display duplicates of a line previously found,
+# even if the duplicates are not contiguous.
+setopt HIST_FIND_NO_DUPS
+
+# If a new command line being added to the history list duplicates an older one,
+# the older command is removed from the list (even if it is not the previous event).
 setopt hist_ignore_all_dups
+
 #  Ignores commands that start with a space from being added to the history.
 setopt hist_ignore_space
+
+# Do not enter command lines into the history list if they are duplicates of the previous event.
 setopt hist_ignore_dups
 
-# ***************************************************************************
-# * Other Setting
-# ***************************************************************************
+# Remove superfluous blanks from each command line being added to the history list.
+setopt HIST_REDUCE_BLANKS
 
-# 启动 zsh 时打印 zsh 加载的配置文件
-# setopt SOURCE_TRACE
+# When writing out the history file, older commands that duplicate newer ones are omitted.
+setopt HIST_SAVE_NO_DUPS
+
+# This option works like APPEND_HISTORY except that new history lines are added to the $HISTFILE incrementally (as soon as they are entered),
+# rather than waiting until the shell exits.
+# 可以使得多个 shell 之间的 history 尽可能实时同步
+setopt INC_APPEND_HISTORY
+
+# Shares the command history across multiple zsh sessions,
+# allowing you to access previously executed commands from any terminal.
+setopt share_history
+
+# ***************************************************************************
+# * Changing Directories
+# ***************************************************************************
 
 # If a command is issued that can’t be executed as a normal command,
 # and the command is the name of a directory, perform the cd command to that directory.
@@ -131,3 +191,16 @@ setopt PUSHD_IGNORE_DUPS
 # > 在文件不存在时会创建文件，在文件存在时会清空文件内容并写入。设置 no_clobber 让 > 只能创建文件，不能覆写文件
 # 同理，让 >> 只能用于给文件追加内容，不能用于创建文件
 # setopt no_clobber
+
+# Makes the shell notify you immediately when a background job completes.
+setopt NOTIFY
+
+# Allows the use of backticks in single-quoted strings. For example, echo 'This is a backtick: `'
+setopt RC_QUOTES
+
+# ***************************************************************************
+# * Debug
+# ***************************************************************************
+
+# 启动 zsh 时打印 zsh 加载的配置文件
+# setopt SOURCE_TRACE

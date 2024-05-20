@@ -2,7 +2,7 @@
 
 apt_updated=0
 
-function apt_install() {
+function installer() {
 	if [[ -z "$@" ]]; then
 		return
 	fi
@@ -14,5 +14,3 @@ function apt_install() {
 
 	apt install -y $@
 }
-
-alias installer="apt_install"

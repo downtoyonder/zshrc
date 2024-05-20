@@ -7,6 +7,8 @@ blue_print=("zsh" "git" "make" "curl")
 support_platform=("linux", "darwin")
 apply_flag="flags/apply.flag"
 
+mkdir -p flags
+
 if [[ -e "$apply_flag" ]]; then
 	echo "already apply the zshrc config"
 	exit 0

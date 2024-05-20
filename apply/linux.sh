@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$platform" != "Linux" ]]; then
+if [[ "$platform" != "linux" ]]; then
 	echo "This script is for Linux only"
 	exit 0
 fi

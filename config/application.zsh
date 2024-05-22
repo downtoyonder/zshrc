@@ -30,6 +30,13 @@ export GOROOT=/usr/local/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$GOROOT/bin:$PATH
 
+# go-callvis
+if command -v go-callvis &>/dev/null; then
+    # 需要用 static 算法，其他会报错
+    # 指定 -cacheDir 避免重复渲染
+    alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
+fi
+
 # * Rust
 # . "$HOME/.cargo/env"
 PATH="$HOME/.cargo/bin:$PATH"
@@ -37,8 +44,13 @@ PATH="$HOME/.cargo/bin:$PATH"
 # * Haskell
 PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
-# * Java jdk
-PATH="/usr/local/jdk/jdk0.8.0_321/bin:$PATH"
+# PlantUML Location
+plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
+
+# * Java
+if command -v java &>/dev/null; then
+    alias 'puml'="java -jar $plant_uml"
+fi
 
 # * Gooogle Protoc
 PATH=/usr/local/protoc/bin:$PATH
@@ -106,3 +118,4 @@ if command -v gh &>/dev/null; then
     alias '#gh'="gh copilot suggest -t gh"
     alias '#!'="gh copilot explain"
 fi
+

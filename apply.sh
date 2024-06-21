@@ -3,6 +3,7 @@
 # Set exit on error
 set -e
 
+# 目标软件
 blue_print=("zsh" "git" "make" "curl")
 support_platform=("linux", "darwin")
 apply_flag="flags/apply.flag"
@@ -31,8 +32,8 @@ for app in "${blue_print[@]}"; do
 	fi
 done
 
-# installer is load from apply/"$platform".sh
-installer ${to_install[@]}
+# zsh_installer is load from apply/"$platform".sh
+zsh_installer ${to_install[@]}
 
 # Check if zsh is the default shell
 # *zsh 表示正则表达式匹配

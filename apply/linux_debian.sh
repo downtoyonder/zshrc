@@ -2,7 +2,7 @@
 
 apt_updated=0
 
-function installer() {
+function zsh_installer() {
 	if [[ -z "$@" ]]; then
 		return
 	fi

@@ -81,7 +81,7 @@ done
 # Get the end time
 end_time=$(date +%s.%N)
 # Calculate the elapsed time
-elapsed_time=$(echo "$end_time - $start_time")
+elapsed_time=$(echo "$end_time - $start_time" | bc)
 # Format the elapsed time
 formatted_time=$(printf "%.2f" $elapsed_time)
 # Set color variables

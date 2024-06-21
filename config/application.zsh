@@ -30,6 +30,12 @@ export GOROOT=/usr/local/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$GOROOT/bin:$PATH
 
+# * delve 
+if command -v dlv &>/dev/null; then
+	# auto completion
+	source <(dlv completion zsh)
+fi
+
 # go-callvis
 if command -v go-callvis &>/dev/null; then
     # 需要用 static 算法，其他会报错
@@ -118,4 +124,13 @@ if command -v gh &>/dev/null; then
     alias '#gh'="gh copilot suggest -t gh"
     alias '#!'="gh copilot explain"
 fi
+
+# colorful man page
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
 

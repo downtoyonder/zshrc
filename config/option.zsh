@@ -190,7 +190,7 @@ setopt PUSHD_IGNORE_DUPS
 # DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
 # > 在文件不存在时会创建文件，在文件存在时会清空文件内容并写入。设置 no_clobber 让 > 只能创建文件，不能覆写文件
 # 同理，让 >> 只能用于给文件追加内容，不能用于创建文件
-# setopt no_clobber
+setopt no_clobber
 
 # Makes the shell notify you immediately when a background job completes.
 setopt NOTIFY

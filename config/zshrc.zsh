@@ -52,17 +52,18 @@ done
 typeset -ga sources
 # Empty the config array to reset PATH
 sources=()
-sources+="$ZSH_CONFIG/option.zsh"
-sources+="$ZSH_CONFIG/function.zsh"
-sources+="$ZSH_CONFIG/zplug.zsh"
-sources+="$ZSH_CONFIG/alias.zsh"
-sources+="$ZSH_CONFIG/application.zsh"
 
 # 根据不同系统导入不同的配置文件
 # MacOS: darwin.zsh
 # Linux: linux.zsh
 systemFile=$(uname -s | tr "[:upper:]" "[:lower:]")
 sources+="$ZSH_CONFIG/$systemFile.zsh"
+
+sources+="$ZSH_CONFIG/option.zsh"
+sources+="$ZSH_CONFIG/function.zsh"
+sources+="$ZSH_CONFIG/zplug.zsh"
+sources+="$ZSH_CONFIG/alias.zsh"
+sources+="$ZSH_CONFIG/application.zsh"
 
 # 应用所有 zsh 配置
 for file in $sources[@]; do

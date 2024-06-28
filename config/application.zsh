@@ -110,7 +110,7 @@ fi
 if command -v microk8s &>/dev/null; then
 	alias mk="microk8s"
 	alias mkk="microk8s kubectl"
-	alias mkh="microk8s  helm"
+	alias mkh="microk8s helm"
 fi
 
 # * golangci-lint

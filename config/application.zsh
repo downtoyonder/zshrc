@@ -106,6 +106,13 @@ if command -v minikube &>/dev/null; then
 	alias mkh="minikube helm"
 fi
 
+# * microk8s 
+if command -v microk8s &>/dev/null; then
+	alias mk="microk8s"
+	alias mkk="microk8s kubectl"
+	alias mkh="microk8s  helm"
+fi
+
 # * golangci-lint
 if command -v golangci-lint &>/dev/null; then
 	# auto completion

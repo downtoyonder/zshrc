@@ -1,7 +1,7 @@
 # 命令建议插件
 # zplug "zsh-users/zsh-autosuggestions"
 # 绑定 alt + a
-bindkey "^[a" autosuggest-accept
+bindkey '^[a' autosuggest-accept
 
 # arrow up/down searches in history if line is already started
 # 上下键根据已输入的命令匹配历史

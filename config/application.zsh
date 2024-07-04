@@ -111,13 +111,17 @@ if command -v minikube &>/dev/null; then
 	alias mk="minikube"
 	alias mkk="minikube kubectl"
 	alias mkh="minikube helm"
-fi
-
+elif command -v microk8s &>/dev/null; then
 # * microk8s 
-if command -v microk8s &>/dev/null; then
 	alias mk="microk8s"
 	alias mkk="microk8s kubectl"
 	alias mkh="microk8s helm"
+fi
+
+if command -v kind &>/dev/null; then
+    if [[ ! -e "${fpath[1]}/_kind" ]]; then
+        kind completion zsh > "${fpath[1]}/_kind"
+    fi
 fi
 
 # * golangci-lint

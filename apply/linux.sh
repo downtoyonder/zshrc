@@ -45,7 +45,7 @@ source "$distro_config"
 # linux 系统需要设置 locale 以设置语言
 
 if ! [[ $(command -v locale-gen) ]]; then
-	installer "locales"
+	zsh_installer "locales"
 fi
 
 # Set the locale

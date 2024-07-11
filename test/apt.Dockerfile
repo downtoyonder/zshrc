@@ -1,5 +1,12 @@
-FROM zshrc:apt.base
+FROM ubuntu:22.04 
 
-RUN git clone https://github.com/downtoyonder/zshrc.git --depth=1 /root/.config/zshrc
+ARG IN_DOCKER=true
 
-ENTRYPOINT bash apply.sh
+WORKDIR /root/.config/zshrc
+
+COPY . .
+
+RUN apt update && apt install -y make && \
+	make clean
+
+ENTRYPOINT ["make", "apply-config"]

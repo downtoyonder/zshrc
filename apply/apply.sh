@@ -4,7 +4,7 @@
 set -e
 
 # 目标软件
-blue_print=("zsh" "git" "make" "curl")
+blue_print=("zsh" "git" "make" "curl" "bc")
 support_platform=("linux", "darwin")
 apply_flag="flags/apply.flag"
 

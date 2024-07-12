@@ -49,4 +49,11 @@ if ! [[ $(command -v locale-gen) ]]; then
 fi
 
 # Set the locale
-locale-gen en_US.UTF-8
+# Need root privilege
+if [[ $(id | grep -c "gid=0") == 1 ]]; then
+	locale-gen en_US.UTF-8
+elif [[ $(id | grep -c sudo) == 1 ]]; then
+	sudo locale-gen en_US.UTF-8
+else
+	echo "You need root privilege to set locale, or manually call $(sudo locale-gen en_US.UTF-8)"
+fi

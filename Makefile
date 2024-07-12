@@ -7,7 +7,7 @@ build-test:
 
 run-test:
 	@if [[ ! -v IN_DOCKER ]]; then \
-		if [[ $$(docker images --filter reference=$(test_image) | wc -l) -le 2 ]]; then \
+		if [[ $$(docker images --filter reference=$(test_image) | wc -l) -lt 2 ]]; then \
 			make build-test; \
 		fi \
 	fi 
@@ -20,6 +20,6 @@ apply-config:
 	@bash $(entry)
 
 clean:
-	@ rm -rf flags zplug
-	@ mkdir zplug
+	@rm -rf flags zplug
+	@mkdir zplug
 	@- docker rmi $(test_image)

@@ -13,7 +13,12 @@ zplug "zsh-users/zsh-history-substring-search", as:plugin
 
 # Supports oh-my-zsh plugins and the like
 zplug "plugins/git", from:oh-my-zsh
+# 双击 ESC 自动在命令前加 sudo
 zplug "plugins/sudo", from:oh-my-zsh
+# 执行 copydir 命令时，会将当前目录复制到剪贴板
+zplug "plugins/copydir", from:oh-my-zsh
+# 执行 copydir 命令时，会将目标文件内容复制到剪贴板
+zplug "plugins/copyfile", from:oh-my-zsh
 
 # Set the priority when loading
 # e.g., zsh-syntax-highlighting must be loaded
@@ -32,6 +37,9 @@ zplug 'romkatv/powerlevel10k', as:theme, depth:1
 # z - jump command
 # https://github.com/agkozak/zsh-z
 zplug "agkozak/zsh-z"
+
+# https://github.com/MichaelAquilina/zsh-you-should-use
+zplug "MichaelAquilina/zsh-you-should-use"
 
 # Install plugins directly
 if ! zplug check --verbose; then

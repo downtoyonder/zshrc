@@ -16,3 +16,5 @@ alias dc="docker compose"
 
 alias vi="vim"
 alias vim="vim"
+
+alias bcat="batcat"

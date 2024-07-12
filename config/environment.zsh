@@ -10,6 +10,10 @@ export ZSH_CONFIG="$XDG_CONFIG_HOME/zshrc/config"
 export ZSH_CACHE="$XDG_CACHE_HOME/zshrc"
 mkdir -p $ZSH_CACHE
 
+# Slove locale problem
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 # ************************************************************** #
 # * 系统级环境变量
 # ************************************************************** #

@@ -8,19 +8,16 @@ function prev() {
 }
 
 function set_proxy() {
-	proxy_file="$ZSH_CONFIG/proxy.zsh"
-	if [[ -f "$proxy_file" ]]; then
-		source "$proxy_file"
-	fi
+	[[ -f "$proxy_file" ]] && source "$ZSH_CONFIG/proxy.zsh"
 }
 
 function unset_proxy() {
-    env | grep -i proxy | while IFS= read -r line; do
-        var_name=$(echo "$line" | cut -d'=' -f1)
-        unset $var_name
-    done
+	env | grep -i proxy | while IFS= read -r line; do
+		var_name=$(echo "$line" | cut -d'=' -f1)
+		unset $var_name
+	done
 }
 
 function show_proxy() {
-    env | grep -i proxy
+	env | grep -i proxy
 }

@@ -104,13 +104,18 @@ if command -v kubectl &>/dev/null; then
 	alias k="kubectl"
 fi
 
+# * helm
+if command -v helm &>/dev/null; then
+	# auto completion
+	source <(helm completion zsh)
+fi
+
 # * minikube
 if command -v minikube &>/dev/null; then
 	# auto completion
 	source <(minikube completion zsh)
 	alias mk="minikube"
 	alias mkk="minikube kubectl"
-	alias mkh="minikube helm"
 elif command -v microk8s &>/dev/null; then
 # * microk8s 
 	alias mk="microk8s"

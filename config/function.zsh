@@ -21,3 +21,7 @@ function unset_proxy() {
 function show_proxy() {
 	env | grep -i proxy
 }
+
+function len() {
+    echo $(expr length "$*")
+}

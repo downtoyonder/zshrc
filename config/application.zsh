@@ -43,6 +43,12 @@ if command -v dlv &>/dev/null; then
 	source <(dlv completion zsh)
 fi
 
+# * ent 
+if command -v ent &>/dev/null; then
+	# auto completion
+	source <(ent completion zsh)
+fi
+
 # go-callvis
 if command -v go-callvis &>/dev/null; then
     # 需要用 static 算法，其他会报错

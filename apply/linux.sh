@@ -7,12 +7,12 @@ fi
 
 debian_config="apply/linux_debian.sh"
 
-debian="Debian"
-ubuntu="Ubuntu"
-mint="Linux Mint"
+debian="debian"
+ubuntu="ubuntu"
+mint="linuxmint"
 debian_like=("$debian" "$ubuntu" "$mint")
 
-distros+=$debian_like
+distros+=("${debian_like[@]}")
 declare -A distro_map
 
 for distro in "${debian_like[@]}"; do
@@ -25,15 +25,15 @@ curr_distro=$(grep '^NAME=' /etc/os-release | awk -F= '{print $2}' | tr -d '"')
 # is current release supported
 is_supported=0
 
-for distro in "${distors[@]}"; do
+for distro in "${distros[@]}"; do
 	if [[ "$curr_distro" == "$distro" ]]; then
-		echo "Found "$distro""
+		echo "Found $distro"
 		is_supported=1
 	fi
 done
 
 if [[ ! "$is_supported" ]]; then
-	echo "Your release is not supported, only support $distros"
+	echo "Your release is not supported, only support" "${distros[@]}"
 	exit 0
 fi
 

@@ -5,7 +5,7 @@ set -e
 
 # 目标软件
 blue_print=("zsh" "git" "make" "curl" "bc")
-support_platform=("linux", "darwin")
+support_platforms=("linux" "darwin")
 apply_flag="flags/apply.flag"
 
 mkdir -p flags
@@ -16,12 +16,18 @@ if [[ -e "$apply_flag" ]]; then
 fi
 
 platform=$(uname | tr 'A-Z' 'a-z') # to lower case
-if [[ ! "${support_platform[@]}" =~ "${platform}" ]]; then
+for supported_platform in "${support_platforms[@]}"; do
+	if [[ "${platform}" == "${supported_platform}" ]]; then
+		break # Platform is supported, continue execution
+	fi
+done
+
+if [[ "${platform}" != "${supported_platform}" ]]; then
 	echo "This script is for Linux and Darwin only"
 	exit 0
 fi
 
-source apply/"$platform".sh
+source apply/"${platform}".sh
 
 # hit = 1
 to_install=()
@@ -33,13 +39,13 @@ for app in "${blue_print[@]}"; do
 done
 
 # zsh_installer is load from apply/"$platform".sh
-zsh_installer ${to_install[@]}
+zsh_installer "${to_install[@]}"
 
 # Check if zsh is the default shell
 # *zsh 表示正则表达式匹配
 if [[ $SHELL != *zsh ]]; then
 	echo "zsh is not the default shell. Set zsh as default shell"
-	chsh -s $(which zsh)
+	chsh -s "$(which zsh)"
 fi
 
 if [ ! -d "zplug/.git" ]; then

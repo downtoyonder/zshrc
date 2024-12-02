@@ -25,3 +25,8 @@ function show_proxy() {
 function len() {
     echo $(expr length "$*")
 }
+
+func cpb() {
+    echo $(xclip -selection clipboard -o)
+}
+

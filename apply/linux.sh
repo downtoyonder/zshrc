@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# platform 变量从 apply.sh 中继承来
 if [[ "$platform" != "linux" ]]; then
 	echo "This script is for Linux only"
 	exit 0
 fi
 
+# debian 系支持的发行版
 debian_config="apply/linux_debian.sh"
 
 debian="debian"
@@ -12,6 +14,7 @@ ubuntu="ubuntu"
 mint="linuxmint"
 debian_like=("$debian" "$ubuntu" "$mint")
 
+# 所有支持的发行版，目前只支持 debian 系
 distros+=("${debian_like[@]}")
 declare -A distro_map
 
@@ -40,6 +43,7 @@ fi
 distro_config=${distro_map["$curr_distro"]}
 
 # 加载当前发行版配置，这会拿到该发行版的 installer 函数
+# shellcheck source=apply/linux_debian.sh
 source "$distro_config"
 
 # linux 系统需要设置 locale 以设置语言

@@ -2,8 +2,9 @@
 
 apt_updated=0
 
+# debian 系安装器
 function zsh_installer() {
-	if [[ -z "$@" ]]; then
+	if [[ -z "$*" ]]; then
 		return
 	fi
 
@@ -12,5 +13,5 @@ function zsh_installer() {
 		apt update
 	fi
 
-	apt install -y $@
+	apt install -y "$@"
 }

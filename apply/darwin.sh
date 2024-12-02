@@ -1,11 +1,11 @@
 #!/bin/bash
 
-apt_updated=0
-
 function zsh_installer() {
-	if [[ -z "$@" ]]; then
+	if [[ -z "$*" ]]; then
 		return
 	fi
 
-	brew install -y $@
+	# 可能没有 homebrew，需要安装
+
+	brew install -y "$@"
 }

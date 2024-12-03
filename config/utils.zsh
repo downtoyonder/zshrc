@@ -19,3 +19,17 @@ function colored_text() {
 	# Return the colored text
 	echo -e "\033[${style_code};${color_code}m${text}\033[0m"
 }
+
+# Define lazy loading mechanism
+function lazy_load_completion() {
+	local command=$1
+	local completion_script=$2
+
+	eval "
+    function $command() {
+        unfunction $command
+        source <($completion_script)
+        $command \"\$@\"
+    }
+    "
+}

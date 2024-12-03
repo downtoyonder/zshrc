@@ -5,30 +5,34 @@
 export EDITOR="vim"
 
 # * Conda
-if [[ -d "$HOME/mambaforge-pypy3" ]]; then
-	conda_provider=mambaforge-pypy3
-elif [[ -d "$HOME/miniforge3" ]]; then
-	conda_provider=miniforge3
-fi
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$("$HOME/$conda_provider/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
-if [ $? -eq 0 ]; then
-	eval "$__conda_setup"
-else
-	if [ -f "$HOME/$conda_provider/etc/profile.d/conda.sh" ]; then
-		. "$HOME/$conda_provider/etc/profile.d/conda.sh"
-	else
-		export PATH="$HOME/$conda_provider/bin:$PATH"
+function conda_init() {
+	unfunction conda_init
+	if [[ -d "$HOME/mambaforge-pypy3" ]]; then
+		conda_provider=mambaforge-pypy3
+	elif [[ -d "$HOME/miniforge3" ]]; then
+		conda_provider=miniforge3
 	fi
-fi
-unset __conda_setup
 
-if [ -f "$HOME/$conda_provider/etc/profile.d/mamba.sh" ]; then
-	. "$HOME/$conda_provider/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
+	# Remove the alias before initialization to avoid conflicts
+	unalias conda 2>/dev/null
+
+	__conda_setup="$("$HOME/$conda_provider/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
+	if [ $? -eq 0 ]; then
+		eval "$__conda_setup"
+	else
+		if [ -f "$HOME/$conda_provider/etc/profile.d/conda.sh" ]; then
+			. "$HOME/$conda_provider/etc/profile.d/conda.sh"
+		else
+			export PATH="$HOME/$conda_provider/bin:$PATH"
+		fi
+	fi
+	unset __conda_setup
+
+	[ -f "$HOME/$conda_provider/etc/profile.d/mamba.sh" ] && . "$HOME/$conda_provider/etc/profile.d/mamba.sh"
+
+	conda "$@"
+}
+alias conda=conda_init
 
 # * Golang
 export GOPATH=$HOME/go
@@ -37,40 +41,25 @@ export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$GOROOT/bin:$PATH
 
 # * delve
-if command -v dlv &>/dev/null; then
-	# auto completion
-	source <(dlv completion zsh)
-fi
+[[ -x "$(command -v dlv)" ]] && lazy_load_completion "dlv" "dlv completion zsh"
 
 # * ent
-if command -v ent &>/dev/null; then
-	# auto completion
-	source <(ent completion zsh)
-fi
+[[ -x "$(command -v ent)" ]] && lazy_load_completion "ent" "ent completion zsh"
 
-# go-callvis
-if command -v go-callvis &>/dev/null; then
-	# 需要用 static 算法，其他会报错
-	# 指定 -cacheDir 避免重复渲染
-	alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
-fi
+# * go-callvis
+[[ -x "$(command -v go-callvis)" ]] && alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
 
 # * Rust
-# . "$HOME/.cargo/env"
 PATH="$HOME/.cargo/bin:$PATH"
 
 # * Haskell
 PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
-# PlantUML Location
-plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
-
 # * Java
-if command -v java &>/dev/null; then
-	alias 'puml'="java -jar $plant_uml"
-fi
+plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
+[[ -x "$(command -v java)" ]] && alias 'puml'="java -jar $plant_uml"
 
-# * Gooogle Protoc
+# * Google Protoc
 PATH=/usr/local/protoc/bin:$PATH
 
 # * JetBrains ToolBox
@@ -80,7 +69,6 @@ PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 PATH="$HOME/.local/share/pnpm:$PATH"
 
 # * yarn
-# yarn global path
 PATH="$HOME/.yarn/bin:$PATH"
 
 # * Prometheus
@@ -92,68 +80,73 @@ export GEM_HOME="$HOME/gems"
 PATH=$GEM_HOME/bin:$PATH
 
 # * NVM
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+function load_nvm() {
+	unfunction load_nvm
+	# Remove the alias before initialization to avoid conflicts
+	unalias nvm 2>/dev/null
+
+	export NVM_DIR="$HOME/.config/nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+	nvm "$@"
+}
+alias nvm=load_nvm
 
 # * bun
-export BUN_INSTALL="$HOME/.bun"
-PATH="$BUN_INSTALL/bin:$PATH"
-# bun completions
-[ -s "/home/don/.bun/_bun" ] && source "/home/don/.bun/_bun"
+function load_bun() {
+	unfunction load_bun
+	unalias bun 2>/dev/null
+	export BUN_INSTALL="$HOME/.bun"
+	PATH="$BUN_INSTALL/bin:$PATH"
+	[ -s "/home/don/.bun/_bun" ] && source "/home/don/.bun/_bun"
+	bun "$@"
+}
+alias bun=load_bun
 
 # * kubectl
-if command -v kubectl &>/dev/null; then
-	# auto completion
-	source <(kubectl completion zsh)
+if [[ -x "$(command -v kubectl)" ]]; then
+	lazy_load_completion "kubectl" "kubectl completion zsh"
 	alias k="kubectl"
 fi
 
 # * helm
-if command -v helm &>/dev/null; then
-	# auto completion
-	source <(helm completion zsh)
-fi
+[[ -x "$(command -v helm)" ]] && lazy_load_completion "helm" "helm completion zsh"
 
-# * minikube
-if command -v minikube &>/dev/null; then
-	# auto completion
-	source <(minikube completion zsh)
+# * minikube/microk8s
+if [[ -x "$(command -v minikube)" ]]; then
+	lazy_load_completion "minikube" "minikube completion zsh"
 	alias mk="minikube"
 	alias mkk="minikube kubectl"
-elif command -v microk8s &>/dev/null; then
-	# * microk8s
+elif [[ -x "$(command -v microk8s)" ]]; then
 	alias mk="microk8s"
 	alias mkk="microk8s kubectl"
 	alias mkh="microk8s helm"
 fi
 
-if command -v kind &>/dev/null; then
-	if [[ ! -e "${fpath[1]}/_kind" ]]; then
-		kind completion zsh >"${fpath[1]}/_kind"
-	fi
+# * kind
+if [[ -x "$(command -v kind)" ]] && [[ ! -e "${fpath[1]}/_kind" ]]; then
+	kind completion zsh >"${fpath[1]}/_kind"
 fi
 
 # * golangci-lint
-if command -v golangci-lint &>/dev/null; then
-	# auto completion
-	source <(golangci-lint completion zsh)
+[[ -x "$(command -v golangci-lint)" ]] && lazy_load_completion "golangci-lint" "golangci-lint completion zsh"
+
+# * thefuck
+[[ -x "$(command -v thefuck)" ]] && eval $(thefuck --alias)
+
+# * GitHub CLI
+if [[ -x "$(command -v gh)" ]]; then
+	function load_gh_aliases() {
+		unfunction load_gh_aliases
+		alias '#'="gh copilot suggest -t shell"
+		alias '#g'="gh copilot suggest -t git"
+		alias '#gh'="gh copilot suggest -t gh"
+		alias '#!'="gh copilot explain"
+	}
+	load_gh_aliases
 fi
 
-if command -v thefuck &>/dev/null; then
-	# thefunk: https://github.com/nvbn/thefuck
-	eval $(thefuck --alias)
-fi
-
-if command -v gh &>/dev/null; then
-	# github cli and github cli copilot
-	alias '#'="gh copilot suggest -t shell"
-	alias '#g'="gh copilot suggest -t git"
-	alias '#gh'="gh copilot suggest -t gh"
-	alias '#!'="gh copilot explain"
-fi
-
-# colorful man page
+# * Man page colors
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
 export LESS_TERMCAP_me=$'\e[0m'

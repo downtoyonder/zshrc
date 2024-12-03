@@ -2,7 +2,7 @@
 # setopt SOURCE_TRACE
 
 # 是否打印时间消耗
-# PRINT_TIME_COST=1
+PRINT_TIME_COST=1
 
 # 是否启用 debug
-# X_DEBUG=1
+X_DEBUG=1

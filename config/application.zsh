@@ -6,9 +6,9 @@ export EDITOR="vim"
 
 # * Conda
 if [[ -d "$HOME/mambaforge-pypy3" ]]; then
-    conda_provider=mambaforge-pypy3
+	conda_provider=mambaforge-pypy3
 elif [[ -d "$HOME/miniforge3" ]]; then
-    conda_provider=miniforge3
+	conda_provider=miniforge3
 fi
 
 # >>> conda initialize >>>
@@ -30,20 +30,19 @@ if [ -f "$HOME/$conda_provider/etc/profile.d/mamba.sh" ]; then
 fi
 # <<< conda initialize <<<
 
-
 # * Golang
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export GOBIN=$GOPATH/bin
 PATH=$GOBIN:$GOROOT/bin:$PATH
 
-# * delve 
+# * delve
 if command -v dlv &>/dev/null; then
 	# auto completion
 	source <(dlv completion zsh)
 fi
 
-# * ent 
+# * ent
 if command -v ent &>/dev/null; then
 	# auto completion
 	source <(ent completion zsh)
@@ -51,9 +50,9 @@ fi
 
 # go-callvis
 if command -v go-callvis &>/dev/null; then
-    # 需要用 static 算法，其他会报错
-    # 指定 -cacheDir 避免重复渲染
-    alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
+	# 需要用 static 算法，其他会报错
+	# 指定 -cacheDir 避免重复渲染
+	alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
 fi
 
 # * Rust
@@ -68,7 +67,7 @@ plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
 
 # * Java
 if command -v java &>/dev/null; then
-    alias 'puml'="java -jar $plant_uml"
+	alias 'puml'="java -jar $plant_uml"
 fi
 
 # * Gooogle Protoc
@@ -123,16 +122,16 @@ if command -v minikube &>/dev/null; then
 	alias mk="minikube"
 	alias mkk="minikube kubectl"
 elif command -v microk8s &>/dev/null; then
-# * microk8s 
+	# * microk8s
 	alias mk="microk8s"
 	alias mkk="microk8s kubectl"
 	alias mkh="microk8s helm"
 fi
 
 if command -v kind &>/dev/null; then
-    if [[ ! -e "${fpath[1]}/_kind" ]]; then
-        kind completion zsh > "${fpath[1]}/_kind"
-    fi
+	if [[ ! -e "${fpath[1]}/_kind" ]]; then
+		kind completion zsh >"${fpath[1]}/_kind"
+	fi
 fi
 
 # * golangci-lint
@@ -147,11 +146,11 @@ if command -v thefuck &>/dev/null; then
 fi
 
 if command -v gh &>/dev/null; then
-    # github cli and github cli copilot
-    alias '#'="gh copilot suggest -t shell"
-    alias '#g'="gh copilot suggest -t git"
-    alias '#gh'="gh copilot suggest -t gh"
-    alias '#!'="gh copilot explain"
+	# github cli and github cli copilot
+	alias '#'="gh copilot suggest -t shell"
+	alias '#g'="gh copilot suggest -t git"
+	alias '#gh'="gh copilot suggest -t gh"
+	alias '#!'="gh copilot explain"
 fi
 
 # colorful man page
@@ -162,4 +161,3 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
-

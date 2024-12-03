@@ -13,7 +13,6 @@ function conda_init() {
 		conda_provider=miniforge3
 	fi
 
-	# Remove the alias before initialization to avoid conflicts
 	unalias conda 2>/dev/null
 
 	__conda_setup="$("$HOME/$conda_provider/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
@@ -30,7 +29,7 @@ function conda_init() {
 
 	[ -f "$HOME/$conda_provider/etc/profile.d/mamba.sh" ] && . "$HOME/$conda_provider/etc/profile.d/mamba.sh"
 
-	conda "$@"
+	"$HOME/$conda_provider/bin/conda" "$@"
 }
 alias conda=conda_init
 
@@ -82,7 +81,6 @@ PATH=$GEM_HOME/bin:$PATH
 # * NVM
 function load_nvm() {
 	unfunction load_nvm
-	# Remove the alias before initialization to avoid conflicts
 	unalias nvm 2>/dev/null
 
 	export NVM_DIR="$HOME/.config/nvm"

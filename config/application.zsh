@@ -33,6 +33,17 @@ function conda_init() {
 }
 alias conda=conda_init
 
+# * Homebrew on linux
+function load_brew() {
+	unfunction load_brew
+	unalias brew 2>/dev/null
+
+	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+	brew "$@"
+}
+alias brew=load_brew
+
 # * Golang
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go

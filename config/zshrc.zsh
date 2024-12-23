@@ -49,8 +49,37 @@ if [[ -z "$sourced_zshs" ]]; then
 	typeset -A sourced_zshs
 fi
 
+sources=(
+	"$ZSH_CONFIG/alias.zsh"
+	"$ZSH_CONFIG/option.zsh"
+	"$ZSH_CONFIG/zplug.zsh"
+	# 根据不同系统导入不同的配置文件
+	# MacOS: darwin.zsh
+	# Linux: linux.zsh
+	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
+	"$ZSH_CONFIG/application.zsh"
+	"$ZSH_CONFIG/function.zsh"
+	"$HOME/.fzf.zsh"
+)
+
+if [[ -z "$source_once_list" ]]; then
+	typeset -A source_once_list
+	# 顺序很重要
+	source_once_list["${ZSH_CONFIG}/option.zsh"]=1
+	source_once_list["${ZSH_CONFIG}/zplug.zsh"]=1
+	source_once_list["${ZSH_CONFIG}/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"]=1
+	source_once_list["${ZSH_CONFIG}/function.zsh"]=1
+	source_once_list["${HOME}/.fzf.zsh"]=1
+fi
+
 function source_once() {
 	local file="$1"
+
+	if [[ ! -n "${source_once_list["$file"]}" ]]; then
+		source "$file"
+		return 0
+	fi
+
 	if [[ -n "${sourced_zshs["$file"]}" ]]; then
 		if [[ $X_DEBUG -eq 1 ]]; then
 			echo "File '$file' is already sourced. Skipping..."
@@ -79,31 +108,12 @@ fi
 opts=("$ZSH_CONFIG/proxy.zsh" "$ZSH_CONFIG/work.zsh")
 
 for opt in $opts[@]; do
-	[[ -f $opt ]] && source_once $opt
+	#[[ -f $opt ]] && source_once $opt
+	[[ -f $opt ]] && source $opt
 done
 
-# typeset -ga
-# -g: This attribute makes the variable global.
-#     Allowing it to be accessed and modified from within functions and subshells.
-#     Without the -g attribute, the variable would be local to the current scope.
-# -a: This attribute specifies that the variable is an array.
-#     Arrays in Zsh can hold multiple values.
-
-sources=(
-	"$ZSH_CONFIG/alias.zsh"
-	"$ZSH_CONFIG/option.zsh"
-	"$ZSH_CONFIG/zplug.zsh"
-	# 根据不同系统导入不同的配置文件
-	# MacOS: darwin.zsh
-	# Linux: linux.zsh
-	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
-	"$ZSH_CONFIG/application.zsh"
-	"$ZSH_CONFIG/function.zsh"
-	"$HOME/.fzf.zsh"
-)
-
 # 应用所有 zsh 配置
-for file in $sources[@]; do
+for file in "$sources[@]"; do
 	[[ -f $file ]] && source_once $file
 	elapsed_time $g_next_time "source $file"
 done

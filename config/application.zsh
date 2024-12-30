@@ -59,6 +59,9 @@ PATH=$GOBIN:$GOROOT/bin:$PATH
 # * go-callvis
 [[ -x "$(command -v go-callvis)" ]] && alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
 
+# * Zig
+PATH=/usr/local/zig:$PATH
+
 # * Rust
 PATH="$HOME/.cargo/bin:$PATH"
 

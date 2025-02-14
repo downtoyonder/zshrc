@@ -161,7 +161,37 @@ if [[ -x "$(command -v gh)" ]]; then
 fi
 
 # * fzf
+# https://github.com/junegunn/fzf
 [[ -x "$(command -v fzf)" ]] && source <(fzf --zsh)
+# --hight 40% 在当前 prompt 下显示 40% 的高度，而非全屏显示
+# --layout reverse 使得输入选择框在 prompt 下方一行显示，未设置时将在 prompt、可选框后展示
+# without --layout reverse:
+# $ fzf # the command line prompt
+# |----------------------|
+# | the selectable items |
+# | ...				     |
+# |----------------------|
+# | the input box        |
+#
+# with --layout reverse:
+# $ fzf # the command line prompt
+# | the input box        |
+# |----------------------|
+# | the selectable items |
+# | ...				     |
+# |----------------------|
+#
+# --border 为 fzf 页面添加一个边框
+
+# 根据上述选项设置 fzf 默认配置
+export FZF_DEFAULT_OPTS="--height 50% --layout reverse --border --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}'"
+# 默认配置文件
+export FZF_DEFAULT_OPTS_FILE=~/.fzfrc
+# CTRL-Y to copy the command into clipboard using pbcopy
+export FZF_CTRL_R_OPTS="
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
 
 # * Man page colors
 export LESS_TERMCAP_mb=$'\e[1;32m'

@@ -34,15 +34,17 @@ function conda_init() {
 alias conda=conda_init
 
 # * Homebrew on linux
-function load_brew() {
-	unfunction load_brew
-	unalias brew 2>/dev/null
+# function load_brew() {
+# 	unfunction load_brew
+# 	unalias brew 2>/dev/null
 
-	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# 	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-	brew "$@"
-}
-alias brew=load_brew
+# 	brew "$@"
+# }
+# alias brew=load_brew
+
+[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # * Golang
 export GOPATH=$HOME/go
@@ -157,6 +159,9 @@ if [[ -x "$(command -v gh)" ]]; then
 	}
 	load_gh_aliases
 fi
+
+# * fzf
+[[ -x "$(command -v fzf)" ]] && source <(fzf --zsh)
 
 # * Man page colors
 export LESS_TERMCAP_mb=$'\e[1;32m'

@@ -59,7 +59,6 @@ sources=(
 	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
 	"$ZSH_CONFIG/application.zsh"
 	"$ZSH_CONFIG/function.zsh"
-	"$HOME/.fzf.zsh"
 )
 
 if [[ -z "$source_once_list" ]]; then
@@ -69,7 +68,6 @@ if [[ -z "$source_once_list" ]]; then
 	source_once_list["${ZSH_CONFIG}/zplug.zsh"]=1
 	source_once_list["${ZSH_CONFIG}/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"]=1
 	source_once_list["${ZSH_CONFIG}/function.zsh"]=1
-	source_once_list["${HOME}/.fzf.zsh"]=1
 fi
 
 function source_once() {

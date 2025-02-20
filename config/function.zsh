@@ -26,7 +26,13 @@ function len() {
     echo $(expr length "$*")
 }
 
-func cpb() {
+function cpb() {
     echo $(xclip -selection clipboard -o)
+}
+
+# https://github.com/colin-scott/interactive_latencies
+# latency numbers every programmers should know
+function lat() {
+    curl cheat.sh/latencies
 }
 

@@ -27,3 +27,12 @@ export LANG=en_US.UTF-8
 # 5. /usr/bin
 # 6. /sbin
 # 7. /bin
+
+
+# ************************************************************** #
+# * Application level environments
+# ************************************************************** #
+
+# [openrouter] Free Key
+export TMUXAI_OPENROUTER_API_KEY=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
+

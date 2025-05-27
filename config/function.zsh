@@ -23,16 +23,38 @@ function show_proxy() {
 }
 
 function len() {
-    echo $(expr length "$*")
+	echo $(expr length "$*")
 }
 
 function cpb() {
-    echo $(xclip -selection clipboard -o)
+	echo $(xclip -selection clipboard -o)
 }
 
 # https://github.com/colin-scott/interactive_latencies
 # latency numbers every programmers should know
 function lat() {
-    curl cheat.sh/latencies
+	curl cheat.sh/latencies
 }
 
+function ts_date() {
+	if [[ $# -eq 0 ]]; then
+		echo "need at least one timestamp argument, like 'ts_date 946656000'"
+		return 0
+	fi
+
+	for ts in "$@"; do
+		if ! [[ "$ts" =~ ^[0-9]+$ ]]; then
+			echo "Error: argument '$ts' must be an integer timestamp"
+			continue
+		fi
+
+		# Check if the timestamp is in milliseconds (length > 10)
+		if [[ ${#ts} -gt 10 ]]; then
+			# Convert milliseconds to seconds
+			tss=$((ts / 1000))
+		fi
+
+		echo -n "ts:$ts --> "
+		date -d @$tss '+%Y-%m-%d %H:%M:%S'
+	done
+}

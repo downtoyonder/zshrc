@@ -34,17 +34,17 @@ function conda_init() {
 alias conda=conda_init
 
 # * Homebrew on linux
-# function load_brew() {
-# 	unfunction load_brew
-# 	unalias brew 2>/dev/null
+function load_brew() {
+	unfunction load_brew
+	unalias brew 2>/dev/null
 
-# 	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# 	brew "$@"
-# }
-# alias brew=load_brew
+	brew "$@"
+}
+alias brew=load_brew
 
-[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # * Golang
 export GOPATH=$HOME/go
@@ -162,7 +162,7 @@ fi
 
 # * fzf
 # https://github.com/junegunn/fzf
-[[ -x "$(command -v fzf)" ]] && source <(fzf --zsh)
+[[ -x "$(command -v fzf)" ]] && lazy_load_completion "fzf" "fzf --zsh"
 # --hight 40% 在当前 prompt 下显示 40% 的高度，而非全屏显示
 # --layout reverse 使得输入选择框在 prompt 下方一行显示，未设置时将在 prompt、可选框后展示
 # without --layout reverse:

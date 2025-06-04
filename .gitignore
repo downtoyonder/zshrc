@@ -1,6 +1,8 @@
 proxy.zsh
 work.zsh
 debug.zsh
+keys.zsh
+
 .vscode
 
 flags

@@ -12,84 +12,16 @@ else
 	source "$HOME/.config/zshrc/config/environment.zsh"
 fi
 
-g_start_time=$(date +%s.%N)
-g_next_time=$g_start_time
-function elapsed_time() {
-	local l_start_time="$1"
-	local l_operation="$2"
+# DEBUG
+[[ ! -f $ZSH_CONFIG/debug.zsh ]] || source $ZSH_CONFIG/debug.zsh
 
-	if [[ -z "$l_start_time" ]]; then
-		l_start_time=$g_start_time
-	fi
+# ----------------------- MAIN SECTION ------------------------
 
-	elapsed_time=$(printf "%.2f" $(echo "$(date +%s.%N) - $l_start_time" | bc))
-	g_next_time=$(date +%s.%N)
-
-	if [[ $PRINT_TIME_COST -eq 0 ]]; then
-		return
-	fi
-
-	if [[ -z "$l_operation" ]]; then
-		echo "Time comsumption: ${elapsed_time}s"
-	else
-		echo "Time consumption of operation \033[1;36m${l_operation}\033[0m: ${elapsed_time}s"
-	fi
-}
-
-# ----------------------- GLOBAL SECTION END ------------------------
-
-
-
-# ----------------------- DEBUG SECTION ------------------------
-source "$ZSH_CONFIG/debug.zsh"
-
-# ----------------------- DEBUG SECTION END ------------------------
-
-if [[ -z "$sourced_zshs" ]]; then
-	typeset -A sourced_zshs
-fi
-
-sources=(
-	"$ZSH_CONFIG/alias.zsh"
-	"$ZSH_CONFIG/option.zsh"
-	"$ZSH_CONFIG/zplug.zsh"
-	# 根据不同系统导入不同的配置文件
-	# MacOS: darwin.zsh
-	# Linux: linux.zsh
-	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
-	"$ZSH_CONFIG/application.zsh"
-	"$ZSH_CONFIG/function.zsh"
-)
-
-if [[ -z "$source_once_list" ]]; then
-	typeset -A source_once_list
-	# 顺序很重要
-	source_once_list["${ZSH_CONFIG}/option.zsh"]=1
-	source_once_list["${ZSH_CONFIG}/zplug.zsh"]=1
-	source_once_list["${ZSH_CONFIG}/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"]=1
-	source_once_list["${ZSH_CONFIG}/function.zsh"]=1
-fi
-
-function source_once() {
-	local file="$1"
-
-	if [[ ! -n "${source_once_list["$file"]}" ]]; then
-		source "$file"
-		return 0
-	fi
-
-	if [[ -n "${sourced_zshs["$file"]}" ]]; then
-		if [[ $X_DEBUG -eq 1 ]]; then
-			echo "File '$file' is already sourced. Skipping..."
-		fi
-		return 0
-	else
-		sourced_zshs["$file"]=1
-		source "$file"
-	fi
-}
-
-source_once "$ZSH_CONFIG/utils.zsh"
+# This will introduce functions:
+# - source_once
+# - elapsed_time
+# - lazy_completion
+source "$ZSH_CONFIG/utils.zsh"
 
 # This setting must be at the top of the file to be effective.
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -103,18 +35,33 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source_once ~/.p10k.zsh
 
-opts=("$ZSH_CONFIG/proxy.zsh" "$ZSH_CONFIG/work.zsh")
 
-for opt in $opts[@]; do
-	#[[ -f $opt ]] && source_once $opt
+opts=(
+	"$ZSH_CONFIG/proxy.zsh"
+	"$ZSH_CONFIG/work.zsh"
+	"$ZSH_CONFIG/keys.zsh"
+)
+
+for opt in "$opts[@]"; do
 	[[ -f $opt ]] && source $opt
 done
+
+sources=(
+	"$ZSH_CONFIG/alias.zsh"
+	"$ZSH_CONFIG/option.zsh"
+	"$ZSH_CONFIG/zplug.zsh"
+	# 根据不同系统导入不同的配置文件
+	# MacOS: darwin.zsh
+	# Linux: linux.zsh
+	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
+	"$ZSH_CONFIG/application.zsh"
+	"$ZSH_CONFIG/function.zsh"
+)
 
 # 应用所有 zsh 配置
 for file in "$sources[@]"; do
 	[[ -f $file ]] && source_once $file
-	elapsed_time $g_next_time "source $file"
+	elapsed_time "source $file"
 done
 
-elapsed_time
-echo "MAKE TODAY AN AMAZING DAY!!! --${elapsed_time}s"
+elapsed_time "finalizer"

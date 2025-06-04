@@ -64,7 +64,7 @@ fi
 
 # 删除原有的 zshrc 文件，创建软链接
 rm -f ~/.zshrc
-ln config/zshrc.zsh ~/.zshrc
+cp .zshrc ~/.zshrc
 
 if [[ -z "$ZSH_CONFIG" ]]; then
 	ZSH_CONFIG=$(pwd)/config

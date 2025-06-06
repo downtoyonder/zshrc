@@ -58,3 +58,37 @@ function ts_date() {
 		date -d @$tss '+%Y-%m-%d %H:%M:%S'
 	done
 }
+
+function is_appimage() {
+	if [[ $# -eq 0 ]]; then
+		echo "Check if a file is an AppImage\n"
+		echo "Usage: is_appimage <file>"
+		return 0
+	fi
+
+	file="$1"
+
+	if [[ ! -f "$file" ]]; then
+		echo "File '$file' does not exist."
+		return 1
+	fi
+
+	local magic
+	magic=$(dd if="$file" bs=1 skip=8 count=3 2>/dev/null | od -An -t x1 | tr -d ' \n')
+
+	case "$magic" in
+	414902) # "AI\x02" (type 2 AppImage)
+		echo "✅ Detected AppImage type 2"
+		return 0
+		;;
+	414901) # "AI\x01" (type 1 AppImage)
+		echo "✅ Detected AppImage type 1"
+		return 0
+		;;
+	*)
+		echo "❌ Not an AppImage"
+		return 1
+		;;
+	esac
+
+}

@@ -21,20 +21,25 @@ fi
 # - source_once
 # - elapsed_time
 # - lazy_completion
+# Load utils.zsh first as it contains essential functions
 source "$ZSH_CONFIG/utils.zsh"
+
+# Enable profiling if debug is enabled
+if [[ $ZSH_PPROF -eq 1 ]]; then
+	zmodload zsh/zprof
+fi
 
 # This setting must be at the top of the file to be effective.
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) must go above this block.
 # Everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source_once "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-$(whoami).zsh" ]]; then
+	source_once "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-$(whoami).zsh"
 fi
 
 # Load p10k config
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source_once ~/.p10k.zsh
-
 
 opts=(
 	"$ZSH_CONFIG/proxy.zsh"
@@ -46,22 +51,31 @@ for opt in "$opts[@]"; do
 	[[ -f $opt ]] && source $opt
 done
 
+# Group configuration files by priority
+# Critical configs first, then system-specific, then application-specific
 sources=(
-	"$ZSH_CONFIG/alias.zsh"
-	"$ZSH_CONFIG/option.zsh"
-	"$ZSH_CONFIG/zplug.zsh"
-	# 根据不同系统导入不同的配置文件
-	# MacOS: darwin.zsh
-	# Linux: linux.zsh
+	"$ZSH_CONFIG/alias.zsh"  # Fast, simple aliases
+	"$ZSH_CONFIG/option.zsh" # Core zsh options
+	"$ZSH_CONFIG/path.zsh"   # PATH management functions
+	"$ZSH_CONFIG/zplug.zsh"  # Plugin management
+	# System-specific configuration
 	"$ZSH_CONFIG/$(uname -s | tr "[:upper:]" "[:lower:]").zsh"
-	"$ZSH_CONFIG/application.zsh"
-	"$ZSH_CONFIG/function.zsh"
+	# Application configs loaded last as they're less critical and can be lazy-loaded
+	"$ZSH_CONFIG/function.zsh"    # User functions
+	"$ZSH_CONFIG/application.zsh" # Application-specific settings (mostly lazy-loaded now)
 )
 
-# 应用所有 zsh 配置
+# Apply all zsh configurations
 for file in "$sources[@]"; do
-	[[ -f $file ]] && source_once $file
-	elapsed_time "source $file"
+	if [[ -f $file ]]; then
+		source_once $file
+		elapsed_time "source $file"
+	fi
 done
+
+# Print startup message and time if enabled
+if [[ $ZSH_PPROF -eq 1 ]]; then
+	zprof
+fi
 
 elapsed_time "finalizer"

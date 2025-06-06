@@ -17,8 +17,14 @@
 # ***************************************************************************
 # * Auto Completion
 # ***************************************************************************
-autoload -U compinit
-compinit
+# Only regenerate completion cache once per day
+autoload -Uz compinit
+# Check if .zcompdump is older than 24 hours - simpler approach
+if [[ -f ~/.zcompdump && $(date +'%j') != $(date -r ~/.zcompdump +'%j' 2>/dev/null || echo 0) ]]; then
+	compinit
+else
+	compinit -C
+fi
 
 # >ls D
 # Desktop/  Documents/  Downloads/ # 阻塞在这里等待进一步输入

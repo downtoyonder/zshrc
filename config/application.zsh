@@ -47,10 +47,18 @@ alias brew=load_brew
 #[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # * Golang
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/go
-export GOBIN=$GOPATH/bin
-PATH=$GOBIN:$GOROOT/bin:$PATH
+function load_golang() {
+	unfunction load_golang
+	unalias go 2>/dev/null
+
+	export GOPATH=$HOME/go
+	export GOROOT=/usr/local/go
+	export GOBIN=$GOPATH/bin
+	PATH=$GOBIN:$GOROOT/bin:$PATH
+
+	go "$@"
+}
+alias go=load_golang
 
 # * delve
 [[ -x "$(command -v dlv)" ]] && lazy_load_completion "dlv" "dlv completion zsh"
@@ -62,37 +70,130 @@ PATH=$GOBIN:$GOROOT/bin:$PATH
 [[ -x "$(command -v go-callvis)" ]] && alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
 
 # * Zig
-PATH=/usr/local/zig:$PATH
+# Use lazy loading for Zig
+function load_zig() {
+	unfunction load_zig
+	unalias zig 2>/dev/null
+
+	PATH=/usr/local/zig:$PATH
+
+	zig "$@"
+}
+alias zig=load_zig
 
 # * Rust
-PATH="$HOME/.cargo/bin:$PATH"
+function load_rust() {
+	unfunction load_rust
+	unalias cargo rustc rustup 2>/dev/null
+
+	PATH="$HOME/.cargo/bin:$PATH"
+
+	if [[ "$1" == "cargo" ]]; then
+		cargo "${@:2}"
+	elif [[ "$1" == "rustc" ]]; then
+		rustc "${@:2}"
+	elif [[ "$1" == "rustup" ]]; then
+		rustup "${@:2}"
+	else
+		"$@"
+	fi
+}
+alias cargo="load_rust cargo"
+alias rustc="load_rust rustc"
+alias rustup="load_rust rustup"
 
 # * Haskell
-PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
+function load_haskell() {
+	unfunction load_haskell
+	unalias ghc ghci cabal 2>/dev/null
+
+	PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
+
+	if [[ "$1" == "ghc" ]]; then
+		ghc "${@:2}"
+	elif [[ "$1" == "ghci" ]]; then
+		ghci "${@:2}"
+	elif [[ "$1" == "cabal" ]]; then
+		cabal "${@:2}"
+	else
+		"$@"
+	fi
+}
+alias ghc="load_haskell ghc"
+alias ghci="load_haskell ghci"
+alias cabal="load_haskell cabal"
 
 # * Java
 plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
 [[ -x "$(command -v java)" ]] && alias 'puml'="java -jar $plant_uml"
 
 # * Google Protoc
-PATH=/usr/local/protoc/bin:$PATH
+function load_protoc() {
+	unfunction load_protoc
+	unalias protoc 2>/dev/null
+
+	PATH=/usr/local/protoc/bin:$PATH
+
+	protoc "$@"
+}
+alias protoc=load_protoc
 
 # * JetBrains ToolBox
+# JetBrains ToolBox
 PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 
-# * Pnpm
-PATH="$HOME/.local/share/pnpm:$PATH"
+# * Pnpm, and yarn - lazy load together
+function load_js_tools() {
+	unfunction load_js_tools
+	unalias pnpm yarn 2>/dev/null
 
-# * yarn
-PATH="$HOME/.yarn/bin:$PATH"
+	# Pnpm
+	PATH="$HOME/.local/share/pnpm:$PATH"
+
+	# yarn
+	PATH="$HOME/.yarn/bin:$PATH"
+
+	if [[ "$1" == "pnpm" ]]; then
+		pnpm "${@:2}"
+	elif [[ "$1" == "yarn" ]]; then
+		yarn "${@:2}"
+	else
+		"$@"
+	fi
+}
+alias pnpm="load_js_tools pnpm"
+alias yarn="load_js_tools yarn"
 
 # * Prometheus
-PATH="$HOME/Applications/prometheus/bin:$PATH"
-PATH="$HOME/Applications/node_exporter/bin:$PATH"
+function load_prometheus() {
+	unfunction load_prometheus
+	unalias prometheus node_exporter 2>/dev/null
+
+	PATH="$HOME/Applications/prometheus/bin:$PATH"
+	PATH="$HOME/Applications/node_exporter/bin:$PATH"
+
+	if [[ "$1" == "prometheus" ]]; then
+		prometheus "${@:2}"
+	elif [[ "$1" == "node_exporter" ]]; then
+		node_exporter "${@:2}"
+	else
+		"$@"
+	fi
+}
+alias prometheus="load_prometheus prometheus"
+alias node_exporter="load_prometheus node_exporter"
 
 # * gem
-export GEM_HOME="$HOME/gems"
-PATH=$GEM_HOME/bin:$PATH
+function load_gem() {
+	unfunction load_gem
+	unalias gem 2>/dev/null
+
+	export GEM_HOME="$HOME/gems"
+	PATH=$GEM_HOME/bin:$PATH
+
+	gem "$@"
+}
+alias gem=load_gem
 
 # * NVM
 function load_nvm() {

@@ -5,8 +5,17 @@
 # Using zplug as plugin manager
 # Refer to https://github.com/zplug/zplug
 
-export ZPLUG_HOME=$ZSH_HOME/zplug
-source $ZPLUG_HOME/init.zsh
+# Only load zplug if it exists
+if [[ -d "$ZSH_HOME/zplug" ]]; then
+	export ZPLUG_HOME=$ZSH_HOME/zplug
+	source $ZPLUG_HOME/init.zsh
+else
+	# If zplug doesn't exist, create a dummy function to prevent errors
+	function zplug() {
+		echo "zplug is not installed. Run 'make apply-config' to install it."
+	}
+	return
+fi
 
 # Make sure to use double quotes
 zplug "zsh-users/zsh-history-substring-search", as:plugin, defer:3
@@ -41,14 +50,14 @@ zplug "agkozak/zsh-z", defer:3
 # https://github.com/MichaelAquilina/zsh-you-should-use
 zplug "MichaelAquilina/zsh-you-should-use", defer:3
 
-# Install plugins directly
-if ! zplug check --verbose; then
-	zplug install
+# Install plugins only if needed, and do it silently
+if ! zplug check; then
+	zplug install >/dev/null 2>&1 &
 fi
 
+# Update plugins only if the flag doesn't exist, and do it in the background
 if [[ ! -e "$ZSH_HOME/flags/zplug_update_once_on_apply.flag" ]]; then
-	zplug update
-	touch $ZSH_HOME/flags/zplug_update_once_on_apply.flag
+	(zplug update >/dev/null 2>&1 && touch $ZSH_HOME/flags/zplug_update_once_on_apply.flag) &
 fi
 
 # Then, source plugins and add commands to $PATH

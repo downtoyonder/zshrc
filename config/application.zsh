@@ -34,31 +34,13 @@ function conda_init() {
 alias conda=conda_init
 
 # * Homebrew on linux
-function load_brew() {
-	unfunction load_brew
-	unalias brew 2>/dev/null
-
-	[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-	brew "$@"
-}
-alias brew=load_brew
-
-#[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # * Golang
-function load_golang() {
-	unfunction load_golang
-	unalias go 2>/dev/null
-
-	export GOPATH=$HOME/go
-	export GOROOT=/usr/local/go
-	export GOBIN=$GOPATH/bin
-	PATH=$GOBIN:$GOROOT/bin:$PATH
-
-	go "$@"
-}
-alias go=load_golang
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go
+export GOBIN=$GOPATH/bin
+PATH=$GOBIN:$GOROOT/bin:$PATH
 
 # * delve
 [[ -x "$(command -v dlv)" ]] && lazy_load_completion "dlv" "dlv completion zsh"
@@ -70,137 +52,46 @@ alias go=load_golang
 [[ -x "$(command -v go-callvis)" ]] && alias 'go-callvis'="go-callvis -algo=static -cacheDir=./callvis"
 
 # * Zig
-# Use lazy loading for Zig
-function load_zig() {
-	unfunction load_zig
-	unalias zig 2>/dev/null
-
-	PATH=/usr/local/zig:$PATH
-
-	zig "$@"
-}
-alias zig=load_zig
+PATH=/usr/local/zig:$PATH
 
 # * Rust
-function load_rust() {
-	unfunction load_rust
-	unalias cargo rustc rustup 2>/dev/null
-
-	PATH="$HOME/.cargo/bin:$PATH"
-
-	if [[ "$1" == "cargo" ]]; then
-		cargo "${@:2}"
-	elif [[ "$1" == "rustc" ]]; then
-		rustc "${@:2}"
-	elif [[ "$1" == "rustup" ]]; then
-		rustup "${@:2}"
-	else
-		"$@"
-	fi
-}
-alias cargo="load_rust cargo"
-alias rustc="load_rust rustc"
-alias rustup="load_rust rustup"
+PATH="$HOME/.cargo/bin:$PATH"
 
 # * Haskell
-function load_haskell() {
-	unfunction load_haskell
-	unalias ghc ghci cabal 2>/dev/null
-
-	PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
-
-	if [[ "$1" == "ghc" ]]; then
-		ghc "${@:2}"
-	elif [[ "$1" == "ghci" ]]; then
-		ghci "${@:2}"
-	elif [[ "$1" == "cabal" ]]; then
-		cabal "${@:2}"
-	else
-		"$@"
-	fi
-}
-alias ghc="load_haskell ghc"
-alias ghci="load_haskell ghci"
-alias cabal="load_haskell cabal"
+PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
 # * Java
 plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
 [[ -x "$(command -v java)" ]] && alias 'puml'="java -jar $plant_uml"
 
 # * Google Protoc
-function load_protoc() {
-	unfunction load_protoc
-	unalias protoc 2>/dev/null
-
-	PATH=/usr/local/protoc/bin:$PATH
-
-	protoc "$@"
-}
-alias protoc=load_protoc
+PATH=/usr/local/protoc/bin:$PATH
 
 # * JetBrains ToolBox
 # JetBrains ToolBox
 PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 
 # * Pnpm, and yarn - lazy load together
-function load_js_tools() {
-	unfunction load_js_tools
-	unalias pnpm yarn 2>/dev/null
+# Pnpm
+PATH="$HOME/.local/share/pnpm:$PATH"
 
-	# Pnpm
-	PATH="$HOME/.local/share/pnpm:$PATH"
-
-	# yarn
-	PATH="$HOME/.yarn/bin:$PATH"
-
-	if [[ "$1" == "pnpm" ]]; then
-		pnpm "${@:2}"
-	elif [[ "$1" == "yarn" ]]; then
-		yarn "${@:2}"
-	else
-		"$@"
-	fi
-}
-alias pnpm="load_js_tools pnpm"
-alias yarn="load_js_tools yarn"
+# yarn
+PATH="$HOME/.yarn/bin:$PATH"
 
 # * Prometheus
-function load_prometheus() {
-	unfunction load_prometheus
-	unalias prometheus node_exporter 2>/dev/null
-
-	PATH="$HOME/Applications/prometheus/bin:$PATH"
-	PATH="$HOME/Applications/node_exporter/bin:$PATH"
-
-	if [[ "$1" == "prometheus" ]]; then
-		prometheus "${@:2}"
-	elif [[ "$1" == "node_exporter" ]]; then
-		node_exporter "${@:2}"
-	else
-		"$@"
-	fi
-}
-alias prometheus="load_prometheus prometheus"
-alias node_exporter="load_prometheus node_exporter"
+PATH="$HOME/Applications/prometheus/bin:$PATH"
 
 # * gem
-function load_gem() {
-	unfunction load_gem
-	unalias gem 2>/dev/null
-
-	export GEM_HOME="$HOME/gems"
-	PATH=$GEM_HOME/bin:$PATH
-
-	gem "$@"
-}
-alias gem=load_gem
+export GEM_HOME="$HOME/gems"
+PATH=$GEM_HOME/bin:$PATH
 
 # * NVM
+export NVM_DIR="$HOME/.config/nvm"
+
 function load_nvm() {
 	unfunction load_nvm
 	unalias nvm 2>/dev/null
 
-	export NVM_DIR="$HOME/.config/nvm"
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 	nvm "$@"
@@ -208,10 +99,10 @@ function load_nvm() {
 alias nvm=load_nvm
 
 # * bun
+export BUN_INSTALL="$HOME/.bun"
 function load_bun() {
 	unfunction load_bun
 	unalias bun 2>/dev/null
-	export BUN_INSTALL="$HOME/.bun"
 	PATH="$BUN_INSTALL/bin:$PATH"
 	[ -s "/home/don/.bun/_bun" ] && source "/home/don/.bun/_bun"
 	bun "$@"

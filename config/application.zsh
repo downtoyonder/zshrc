@@ -152,6 +152,19 @@ if [[ -x "$(command -v gh)" ]]; then
 	load_gh_aliases
 fi
 
+function load_q() {
+	unfunction load_q
+	unalias q 2>/dev/null
+
+    source "$HOME/.local/share/amazon-q/shell/zshrc.pre.zsh"
+    source "$HOME/.local/share/amazon-q/shell/zshrc.post.zsh"
+
+	q "$@"
+}
+alias q=load_q
+
+
+
 # * fzf
 # https://github.com/junegunn/fzf
 [[ -x "$(command -v fzf)" ]] && lazy_load_completion "fzf" "fzf --zsh"

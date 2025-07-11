@@ -1,0 +1,22 @@
+[user]
+	email = tzy404270552@gmail.com
+	name = Don
+[core]
+	editor = vim
+[init]
+	defaultBranch = main
+
+[url "ssh://git@gitlab.pixocial.com/"]
+    insteadOf = https://gitlab.pixocial.com/
+
+[url "git@github.com-pix:pix-abvc"]
+    insteadOf = git@github.com:pix-abvc
+
+[url "git@github.com-pix:pix-platform"]
+    insteadOf = git@github.com:pix-platform
+
+[url "git@github.com-pix:pix-platform"]
+    insteadOf = https://github.com/pix-platform
+
+[url "git@github.com-pix:pix-abvc"]
+    insteadOf = https://github.com/pix-abvc

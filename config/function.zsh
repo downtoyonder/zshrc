@@ -92,3 +92,77 @@ function is_appimage() {
 	esac
 
 }
+
+function add_alias() {
+	if [[ $# -eq 0 ]]; then
+		echo "Add new alias to zshrc/alias.zsh file"
+		echo "Take effects after command completes\n"
+		echo "Usage: add_alias [-f] <alias> <target file path related to current>"
+		echo "  -f    Force overwrite if alias already exists"
+		return 0
+	fi
+
+	# Parse arguments
+	local force=false
+	local args=("$@")
+	local arg_index=1
+
+	# Check for -f flag
+	if [[ "${args[1]}" == "-f" ]]; then
+		force=true
+		arg_index=2
+	fi
+
+	# Get alias name and file path based on whether -f was used
+	alias_name="${args[$arg_index]}"
+	file="${args[$((arg_index + 1))]}"
+
+	if [[ -z "$alias_name" || -z "$file" ]]; then
+		echo "Error: Missing required arguments."
+		echo "Usage: add_alias [-f] <alias> <target file path related to current>"
+		return 1
+	fi
+
+	if [[ ! -f "$file" ]]; then
+		echo "File '$file' does not exist."
+		return 1
+	fi
+
+	# Get absolute path of the file
+	absolute_path=$(realpath "$file")
+
+	# Check if the alias already exists
+	if alias "$alias_name" &>/dev/null; then
+		if [[ "$force" == true ]]; then
+			echo "Alias '$alias_name' exists. Removing it due to -f flag..."
+
+			# Unalias it immediately
+			unalias "$alias_name"
+
+			# Remove the line from alias.zsh file
+			# Create a temporary file
+			temp_file=$(mktemp)
+
+			# Filter out the line with the alias
+			grep -v "alias $alias_name=" "$ZSH_CONFIG/alias.zsh" >|"$temp_file"
+
+			# Copy the content back to the original file to preserve permissions and ownership
+			cat "$temp_file" >|"$ZSH_CONFIG/alias.zsh"
+
+			# Remove the temporary file
+			rm "$temp_file"
+		else
+			echo "Warning: Alias '$alias_name' already exists."
+			echo "Use -f flag to force overwrite."
+			return 1
+		fi
+	fi
+
+	# Set the alias immediately
+	alias "$alias_name"="$absolute_path"
+
+	# Add the alias to the alias.zsh file
+	echo "alias $alias_name=\"$absolute_path\"" >>"$ZSH_CONFIG/alias.zsh"
+
+	echo "✅ Alias '$alias_name' added successfully."
+}

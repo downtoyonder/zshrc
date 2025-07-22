@@ -61,7 +61,9 @@ PATH="$HOME/.cargo/bin:$PATH"
 PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
 # * Java
-plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2024.4.jar"
+# 
+# * PlantUML
+plant_uml="$HOME/Applications/cli_apps/plantuml-gplv2-1.2025.4.jar"
 [[ -x "$(command -v java)" ]] && alias 'puml'="java -jar $plant_uml"
 
 # * Google Protoc
